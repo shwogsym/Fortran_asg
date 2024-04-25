@@ -13,7 +13,7 @@ program asg2
 
     open(fo,file = 'outasg2.d', action = "write") 
     do t = 1,10
-        write (fo,*) i(t),x(t) 
+        write (fo,'(d24.16,d24.16)') i(t),x(t) 
     enddo 
 
     close(fo) 
