@@ -6,7 +6,7 @@ program asg7
     
     a = 0.0d0 
     b = 2.0d0 * acos(0.0d0)
-    !積分範囲の設定、上限値はpi
+    !積分範囲の設定、上限値はπ
 
     write (*,*) 'Input n (number of divisions)'
     read (*,*) n 
