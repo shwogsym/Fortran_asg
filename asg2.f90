@@ -5,7 +5,7 @@ program asg2
     open(fi,file = 'inpasg2.d',action = "read") 
 
     do t = 1,10
-    read(fi,*) i(t),x(t) 
+        read(fi,*) i(t),x(t) 
     enddo 
     close(fi)
 
