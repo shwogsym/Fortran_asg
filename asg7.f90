@@ -27,11 +27,6 @@ program asg7
     !integral_appro (微小区間の積分値) の初期設定
     integral_appro = f(2,0) + f(2,n) 
 
-    !シンプソン法は2ずつ偶数奇数で考えかたが違う。勉強執拗
-    !→　合成シンプソン公式で検索&勉強、、、
-    ! つまりこのプログラムは普通のシンプソン法と違う可能性
-
-
     do i  = 1,n-1,2
         integral_appro  = integral_appro + 4.0d0 * f(2,i) 
     enddo 
