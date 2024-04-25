@@ -46,3 +46,4 @@ program asg7
 
     write (*,*) 'Approximate integral of sin(x) = ',integral_appro 
 end program asg7 
+
