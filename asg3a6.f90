@@ -1,7 +1,9 @@
 module func_module
     implicit none 
+    
     contains 
-    subroutine newton(a, b, c, x1)
+
+    subroutine newton(a, b, c, d,x1)
     implicit none 
     real(8) :: a, b, c,d, x1, x2,f,df,er,er0=1.0d-6
     integer :: k,km = 100, fo = 11
@@ -31,13 +33,15 @@ end module func_module
 
 
 program asg3_6 
-
+    use func_module
     implicit none
-    real (8) :: x0,x1,a,b,c,d
+
+    real (8) :: x1,a,b,c,d
     integer :: fi = 10, fo = 11,ios
 
     open(fi, file='inpasg3a6.d',action='read',iostat=ios)
     if (ios /= 0) stop 'File open error.'
+    !ファイル読み込みに失敗→終了
 
     open(fo, file='outasg3a6.d',action='write')
     read(fi,*) a,b,c,d 
@@ -45,11 +49,10 @@ program asg3_6
     close(fi)
 
     write (*,*) 'Input initial value'
-    read (*,*) x0
+    read (*,*) x1
     !初期値はターミナルから入力、いちいちファイルを弄るのが面倒
-    
-    x1 = x0
-    
+
+    call newton(a, b, c, d, x1)
 
 end program asg3_6
 
