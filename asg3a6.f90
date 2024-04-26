@@ -8,6 +8,8 @@ module func_module
     real(8) :: a, b, c,d, x1, x2,f,df,er,er0=1.0d-6
     integer :: k,km = 100, fo = 11
 
+    open(fo, file='outasg3a6.d',action='write')
+
     do k = 1,km 
 
         ! Calculate the value of the function and its derivative at x1
@@ -37,13 +39,12 @@ program asg3_6
     implicit none
 
     real (8) :: x1,a,b,c,d
-    integer :: fi = 10, fo = 11,ios
+    integer :: fi = 10,ios
 
     open(fi, file='inpasg3a6.d',action='read',iostat=ios)
     if (ios /= 0) stop 'File open error.'
     !ファイル読み込みに失敗→終了
 
-    open(fo, file='outasg3a6.d',action='write')
     read(fi,*) a,b,c,d 
     !a,b,c,dを３次関数の係数としてそれぞれファイルに入力
     close(fi)
