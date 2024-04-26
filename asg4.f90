@@ -1,29 +1,8 @@
-program asg4 
+module func_module
     implicit none 
-    real(8) a, b, c, x1, x2, xm
-    integer :: t, max_t = 1000
+    contains 
 
-    a = 0.0d0
-    b = -2.0d0
-    c = 2.0d0
-
-    write(*,*) "Input the start value x1 and end value x2"
-    read(*,*) x1, x2 
-
-    call bisection_method(a, b, c, x1, x2, t, xm)
-
-    if (t == max_t) then
-        write(*,*) "No solution was found."
-    else
-        write(*,*) "Solution :", xm
-    end if
-    write(*,*) 'Number of repetitions:', t
-
-end program asg4
-
-
-!二分法の外部サブルーチン
-subroutine bisection_method(a, b, c, x1, x2, t, xm)
+    subroutine bisection_method(a, b, c, x1, x2, t, xm)
     implicit none 
     real(8) :: a, b, c, x1, x2, xm, fm
     integer :: t, max_t = 1000, fi = 10
@@ -62,9 +41,10 @@ subroutine bisection_method(a, b, c, x1, x2, t, xm)
 
         t = t + 1 
         write(fi,*) t, xm 
-    end do 
+    end do
 
-contains 
+    close(fi)
+    end subroutine bisection_method
 
     real(8) function func(a, b, c, x)
         implicit none 
@@ -72,9 +52,40 @@ contains
         func = a*x**2.0d0 + b*x + c
     end function func
 
-end subroutine bisection_method
+end module func_module
 
 
-    
+program asg4 
+    use func_module
+    implicit none 
+    real(8) a, b, c, x1, x2, xm
+    integer :: t, max_t = 1000
+
+    a = 0.0d0
+    b = -2.0d0
+    c = 2.0d0
+    !係数の指定
+
+    write(*,*) "Input the start value x1 and end value x2"
+    read(*,*) x1, x2 
+
+    call bisection_method(a, b, c, x1, x2, t, xm)
+
+    if (t == max_t) then
+        write(*,*) "No solution was found."
+    else
+        write(*,*) "Solution :", xm
+    end if
+    write(*,*) 'Number of repetitions:', t
+    write(*,*) 'Output file :"outasg4.d"'
+
+end program asg4
+
+
+
+!subroutineと　functionについて
+!サブルーチンはイメージ的にはデータ、作業の一連操作を定義するもの
+!function は数学の関数みたいに使うときに定義する
+
 
 
