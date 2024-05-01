@@ -7,6 +7,7 @@ module func_module
         integer, intent(in) :: n
         real(8), intent(in) :: h
         real(8), intent(in) :: f(2,0:n)
+         !intend in にて、パラメータが外部からインプットされる変数であり、サブルーチン内でそれらを変更しないように定義している。
         real(8), intent(inout) :: integral_appro
 
         !integral_appro (微小区間の積分値) の初期設定

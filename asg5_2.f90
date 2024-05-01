@@ -27,10 +27,11 @@ program asg5_2
             x1 = xm
         endif
         t = t + 1 
-        write(4,*)t,xm
-    end do 
+        write(4,*)t,xm 
+    end do
 
 end program asg5_2
+
 
 
 !二分法も解が２つある場合、初期値に依存して解が決まる。

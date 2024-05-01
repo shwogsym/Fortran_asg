@@ -5,7 +5,7 @@ module func_module
     subroutine bisection_method(a, b, c, x1, x2, t, xm)
     implicit none 
     real(8) :: a, b, c, x1, x2, xm, fm
-    integer :: t, max_t = 1000, fi = 10
+    integer :: t, max_t = 1000, fi = 10,io
     real(8), parameter :: er = 1.0e-6
 
 
@@ -15,7 +15,8 @@ module func_module
     !２つの初期値が二分法を回す条件を満たしているのか検証
 
     t = 0 
-    open(fi, file = 'outasg4.d')
+    open(fi, file = 'outasg4.d',iostat = io)
+    if (io /= 0) stop 'Failure to read file'
 
     do while (abs(x2 - x1) > er .and. t < max_t) 
         xm = (x1 + x2) / 2.0
