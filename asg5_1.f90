@@ -1,15 +1,14 @@
 program asg5_1 
     implicit none
-    real (8) :: x0,x1,x2,er,er0=1.0d-15  !1.0d-6は10^{-6}を意味する
-    integer :: k,km = 100, fi = 10, fo = 11
+    real (8) :: x1,x2,er,er0=1.0d-15  !1.0d-6は10^{-6}を意味する
+    integer :: k,km = 100,fo = 11
 
-    open(unit=fi, file='inpasg5_1.d')
-    open(unit=fo, file='outasg5_1.d')
-    read(fi,*) x0 
-    close(fi) 
-    !inpasg5_1.d にニュートン法の初期値を入力
+    write(*,*) 'Input initial value: '
+    read(*,*) x1
+    
+    open(unit=fo, file='outasg5_1.d',action = 'write')
 
-    x1 = x0 ! x0は解の近似値の初期値であり、f(x0)・f''(x0) > 0 とすると良い解が得やすい
+    !x1 = x0 ! x0は解の近似値の初期値であり、f(x0)・f''(x0) > 0 とすると良い解が得やすい
 
     do k = 1,km 
         x2 = x1 - 0.5d0*(x1**2 - 1.0d0)/x1 !x1より真の値に近いx2を計算する部分、テキスト　(1.6)(1.7) 式参照

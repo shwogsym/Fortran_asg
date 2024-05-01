@@ -10,7 +10,6 @@ program asg5_2
 
     write (*,*) "Input the start value xa and end value x2" 
     read (*,*) x1,x2 
-
     !ここで初期値はそれぞれ、f(x1) < 0 、f(x2) > 0　として選ぶ必要がある。
 
     t = 0 

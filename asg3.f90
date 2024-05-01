@@ -9,10 +9,7 @@ program asg3
     close(fi) 
     !inpasg3.d にニュートン法の初期値を入力
 
-    if (x0 == 0) stop 'Initial value should not be equal to 0'
-
     x1 = x0 ! x0は解の近似値の初期値であり、f(x0)・f''(x0) > 0 とすると良い解が得やすい
-    
 
     do k = 1,km
         x2 = x1 - 0.5d0*(x1**2 - 1.0d0)/x1 !x1より真の値に近いx2を計算する部分、テキスト　(1.6)(1.7) 式参照
