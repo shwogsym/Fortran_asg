@@ -117,8 +117,9 @@ program asg4
             write(*,*) "Solution in interval ", i, ":", xm
         endif
         write(*,*) 'Number of repetitions for interval ', i, ':', t
+        write(*,*) 'Output file :"outasg4_i.d"'
     end do
-    write(*,*) 'Output file :"outasg4.d"'
+   
 
 end program asg4
         
