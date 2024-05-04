@@ -1,12 +1,12 @@
 module func_module
-    implicit none 
+    implicit none
     contains 
 
     subroutine bisection_method(a, b, c, x1, x2, t, xm)
     implicit none 
     real(8) :: a, b, c, x1, x2, xm, fm
     integer :: t, max_t = 1000, fi = 10,io
-    real(8), parameter :: er = 1.0e-6
+    real(8), parameter :: er = 1.0e-15
 
 
     if (func(a, b, c, x1) * func(a, b, c, x2) > 0) then
@@ -56,6 +56,7 @@ module func_module
 end module func_module
 
 
+
 program asg4 
     use func_module
     implicit none 
@@ -68,7 +69,7 @@ program asg4
     !係数の指定
 
     write(*,*) "Input the start value x1 and end value x2"
-    read(*,*) x1, x2 
+    read(*,*) x1, x2
 
     call bisection_method(a, b, c, x1, x2, t, xm)
 
