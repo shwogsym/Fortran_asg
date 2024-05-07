@@ -43,7 +43,7 @@ program asg3_6
     integer :: fi = 10,ios
 
     open(fi, file='inpasg3a6.d',action='read',iostat=ios)
-    if (ios /= 0) stop 'File open error.'
+    if (ios /= 0) stop 'Filure to open file.'
     !ファイル読み込みに失敗→終了
 
     read(fi,*) a,b,c,d 

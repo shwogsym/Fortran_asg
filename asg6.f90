@@ -7,6 +7,7 @@ program asg6
     open(unit=fo, file='outasg6.d')
     read(fi,*) x0 
     close(fi) 
+    !形式上初期値をx0としているだけで、いきなりX1に入れても良い。
 
     x1 = x0 ! x0は解の近似値の初期値であり、f(x0)・f''(x0) > 0 とすると良い解が得やすい
 
