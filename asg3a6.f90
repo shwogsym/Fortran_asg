@@ -1,3 +1,6 @@
+!今のところこのプログラムは解の判定が一つしかできないから、複数の解で計算できるように改善したい。
+
+
 module func_module
     implicit none 
     
@@ -57,4 +60,5 @@ program asg3_6
     call newton(a, b, c, d, x1)
 
 end program asg3_6
+
 
