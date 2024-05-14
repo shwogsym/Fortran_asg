@@ -1,3 +1,4 @@
+!初期値を入力するタイプのニュートン法、関数は三次以下で任意
 
 module func_module
     implicit none 
