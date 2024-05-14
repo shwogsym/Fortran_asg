@@ -1,5 +1,5 @@
-!任意の三次関数解をニュートン法で求める
-!虚数解に対応できてない
+!任意区間での任意の三次関数解をでニュートン法で求めるプログラム
+!課題６が初期値を措定するプログラムだからそれはそれで必要
 
 module func_module
     implicit none 
@@ -36,7 +36,7 @@ module func_module
             x2 = x1 - f / df
             er = abs(x2 - x1)
 
-            write (output_file_number,*) k,x2
+            write (output_file_number,'(I2.2, 2X, F24.16)') k,x2
 
             if (er < er0) exit
             x1 = x2
@@ -92,19 +92,14 @@ program asg3_6
     integer :: fi = 10,io,i,count,split,k
     real(8) ,allocatable :: xs(:)
 
-    open(fi, file='asg3_6_file/inpasg3a6.d', action='read', iostat=io)
+    open(fi, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
     if (io /= 0) stop 'Filure to open file.'
     !ファイル読み込みに失敗→終了
 
-    read(fi,*) a,b,c,d 
-    !a,b,c,dを３次関数の係数としてそれぞれファイルに入力
+    read(fi,*) a,b,c,d,f,l,split
+    !a,b,c,dを３次関数の係数としてそれぞれファイルに入力　"Input calculate range f and l (f < range < l)" and split time
     close(fi)
 
-    write(*,*) "Input calculate range f and l (f < range < l)"
-    read(*,*) f, l
-
-    write(*,*) "Input split time"
-    read(*,*) split
 
     call hantei(a,b,c,f,l,xs,count,split)
 
@@ -115,7 +110,6 @@ program asg3_6
         write(*,*) 'Output file : "asg4_file/data_', i, '.dat"'
     enddo 
 
-    write(*,*) count
 
 end program asg3_6
 

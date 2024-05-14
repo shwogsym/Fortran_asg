@@ -1,3 +1,5 @@
+!題意そのまま、最低限のプログラム
+
 program asg3
     implicit none
     real (8) :: x0,x1,x2,er,er0=1.0d-6  !1.0d-6は10^{-6}を意味する

@@ -1,4 +1,5 @@
 !走査型の二分法のプログラム
+!任意範囲を任意回数で分割し、初期条件を探す。
 module func_module
     implicit none
     contains 

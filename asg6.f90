@@ -1,26 +1,73 @@
-program asg6
+
+module func_module
+    implicit none 
+    
+    contains 
+
+    subroutine newton(a, b, c, d, x1, k)
+        implicit none 
+        real(8) a, b, c,d, x1, x2,f,df,er
+        integer k,io
+
+        real(8) ,parameter :: er0=1.0d-15
+        integer ,parameter :: k_max = 100, output_file_number = 11
+        character (32) filename
+
+        write(filename, '("asg6_file/data.dat")') 
+        open(output_file_number, file= filename, action='write',iostat=io)
+        if (io /= 0) stop 'Failure to read file'
+
+
+        do k = 1,k_max 
+
+            f = a*x1**3 + b*x1**2 + c*x1 + d            ! f(x)
+            df = 3*a*x1**2 + 2*b*x1 + c                 ! f'(x)
+
+            if (df == 0) then
+                print *, 'Error, derivative is zero.'
+                exit
+            endif
+            !導関数が0のとき収束がない
+
+            x2 = x1 - f / df
+            er = abs(x2 - x1)
+
+            write (output_file_number,'(I2.2, 2X, F24.16)') k,x2
+
+            if (er < er0) exit
+            x1 = x2
+        enddo
+
+        close (output_file_number) 
+    end subroutine newton
+
+end module func_module
+
+
+
+program asg6 
+    use func_module
     implicit none
-    real (8) :: x0,x1,x2,er,er0=1.0d-6  !1.0d-6は10^{-6}を意味する
-    integer :: k,km = 100, fi = 10, fo = 11
 
-    open(unit=fi, file='inpasg6.d')
-    open(unit=fo, file='outasg6.d')
-    read(fi,*) x0 
-    close(fi) 
-    !形式上初期値をx0としているだけで、いきなりX1に入れても良い。
+    real (8) a,b,c,d,xs
+    integer io,k
 
-    x1 = x0 ! x0は解の近似値の初期値であり、f(x0)・f''(x0) > 0 とすると良い解が得やすい
+    integer ,parameter   :: input_file_number = 10
 
-    do k = 1,km 
-        x2 = x1 - (x1**3 - x1)/(3*x1**2-1)
-        er = abs(x2-x1)
-        write (fo,*) k,x2
-        if (er < er0) exit
-        x1 = x2 
-    enddo
-    close (fo)
+    open(input_file_number, file='asg6_file/inpasg6.dat', action='read', iostat=io)
+    if (io /= 0) stop 'Filure to open file.'
+    !ファイル読み込みに失敗→終了
+
+    read(input_file_number,*) a,b,c,d,xs
+    !a,b,c,dを３次関数の係数と初期値
+    close(input_file_number)
+
+    call newton(a, b, c, d, xs, k)
+        
+    write(*,*) "Solution                     :", xs
+    write(*,*) 'Number of repetitions :',k
+    write(*,*) 'Output file : "asg6_file/data.dat"'
+
 end program asg6
 
 
-!x**3 - x のグラフを観たら分かる通り解は1,-1の２つである。そしてこのプログラムを用いるとどちらか一つの解を計算することができて、どちらが選ばれるかは初期値による。
-!なぜか？　→　テキスト25P観て分かる通り、ニュートン法は初期値が入力されて地点において、微分係数が小さくなる方向に向けてxを逐一計算し、求めていく手法のため

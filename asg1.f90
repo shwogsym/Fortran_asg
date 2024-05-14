@@ -1,3 +1,5 @@
+!二次関数の解の公式
+
 module func_module
     implicit none 
 

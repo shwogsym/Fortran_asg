@@ -1,3 +1,5 @@
+!初期値入力型の二分法プログラム
+
 module func_module
     implicit none
     contains 
