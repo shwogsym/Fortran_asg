@@ -1,4 +1,4 @@
-!時間計測機能の組み込みも
+!時間計測機能の組み込みもしたいかな
 
 module func_module
     implicit none
@@ -32,7 +32,7 @@ module func_module
 
             write (output_file_number,'(I2.2, 2X, F24.16)') k,x2
             x1 = x2
-            
+
             k = k + 1
         enddo
 
@@ -98,10 +98,10 @@ program asg5_1
     implicit none
 
     real (8) :: a,b,c,xn,x1,x2,xm
-    integer  :: k,io, max_t = 1000
+    integer  :: k,max_t = 1000,io
     
     real (8) ,parameter :: er0=1.0d-15
-    integer  ,parameter :: k_max = 100, input_file_number = 10, output_file_number = 11
+    integer  ,parameter :: k_max = 1000, input_file_number = 10, output_file_number = 11
 
 
     open(input_file_number, file='asg5_file/inpasg5.dat', action='read', iostat=io)
