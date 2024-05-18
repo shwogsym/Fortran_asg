@@ -1,4 +1,5 @@
 !二次関数の解の公式
+!複素要素もいれる
 
 module func_module
     implicit none 
@@ -21,7 +22,9 @@ module func_module
             if (b**2 - 4.0d0*a*c < 0) stop 'Invaid input D < 0'
             x1 = (-b+(b**2-4*a*c)**0.5)/(2*a)
             x2 = (-b-(b**2-4*a*c)**0.5)/(2*a)
+            write (output_file,*) 'x =',x1,x2
         endif     
+        close(output_file)
     end subroutine solution_formula
 end module func_module
 
@@ -40,23 +43,12 @@ program asg1
     open (output_file, file = 'asg1_file/outasg1.dat',action = 'write',iostat = io)
     if(io /= 0) stop 'Error : failed to open file'
 
-    read(input_file,*) a,b,c
+    read(input_file,*) a,b,c !ファイルに二次関数の計数を入れておく (ax^2 + bx + c = 0)
     close(input_file) 
 
-    call solution_formula(a,b,c,x1,x2)
-        
-    if(x1 == x2) then  
-        write (output_file,*) 'x=',x1
-        write (*,*) 'x=',x1
-        write (*,*) 'Output file was made in asg1_file'
+    call solution_formula(a,b,c,x1,x2) !解の係数公式の呼び出し　→　解を得る
 
-    else
-        write (output_file,*) 'x =',x1,x2
-        write (*,*) 'x=',x1,x2
-        write (*,*) 'Output file was made in asg1_file'
-    endif
-    close(output_file)
-
+    write (*,*) 'Output file was made in asg1_file'
     
 end program asg1
 
