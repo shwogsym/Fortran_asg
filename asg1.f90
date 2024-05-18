@@ -17,12 +17,14 @@ module func_module
             else 
                 x1 = -c/b 
                 write(output_file,*) 'x = ',x1
+                write(*,*) 'x = ',x1
             endif 
         else 
             if (b**2 - 4.0d0*a*c < 0) stop 'Invaid input D < 0'
             x1 = (-b+(b**2-4*a*c)**0.5)/(2*a)
             x2 = (-b-(b**2-4*a*c)**0.5)/(2*a)
             write (output_file,*) 'x =',x1,x2
+            write (*,*) 'x =',x1,x2
         endif     
         close(output_file)
     end subroutine solution_formula
