@@ -1,28 +1,36 @@
-!バックグラウンド値を引くプログラム
-!配列のの自由度を上げたい。列の大きき判定、または指定に関する改善予定
+module func_module
+    implicit none   
+    contains
 
-program asg2 
+    subroutine Fix_background(x)
+        implicit none 
+        real(8)x
+        x=x-0.01d0
+    end subroutine Fix_background
+ end module func_module
+ 
+ program asg2
+    use func_module
     implicit none
-    integer :: t, fi = 20,fo = 21,io
-    real(8) i(10),x(10) 
 
-    open(fi,file = 'asg2_file/inpasg2.d',action = "read",iostat=io) 
+    real(8) x
+    integer i,n,io
+
+    integer ,parameter :: input_file_number = 10, output_file_number = 11
+
+    open(input_file_number,file = 'asg2_file/inpasg2.dat',action = "read",iostat=io) 
+    if (io /= 0) stop 'Failure to read file'
+    open(output_file_number,file = 'asg2_file/outasg2.dat', action = "write",iostat = io) 
     if (io /= 0) stop 'Failure to read file'
 
-    do t = 1,10
-        read(fi,*) i(t),x(t) 
-    enddo 
-    close(fi)
+    do i=1,100
+       read(input_file_number,*,iostat=io)n,x
+       if(io < 0) exit
+       !テキスト33p参照、ファイル最終行の検出
+       call Fix_background(x)
+       write(output_file_number,'(I2.2, 2X, F24.16)')n,x
+    enddo
 
-    x(:) = x(:) - 0.01d0
-
-    open(fo,file = 'asg2_file/outasg2.d', action = "write",iostat = io) 
-    if (io /= 0) stop 'Failure to read file'
-    do t = 1,10
-        write (fo,'(i2,d24.16)') t,x(t) 
-    enddo 
-
-    close(fo) 
-    
-endprogram asg2 
-    
+    close(input_file_number)
+    close(output_file_number)
+ end program asg2
