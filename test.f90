@@ -15,9 +15,9 @@ module func_module
         character(32)      :: filename
 
 
-        write(filename, '("asg3_6file/data_"i2.2".dat")') i
+        write(filename, '("asg3_6_file/data_"i2.2".dat")') i
         open(output_file_number, file= filename, action='write',iostat=io)
-        if (io /= 0) stop 'Failure to read file'
+        if (io /= 0) stop 'Failure to open input file'
         
 
         do k = 1,km 
@@ -71,11 +71,8 @@ module func_module
         end do
 
     end subroutine hantei
-
-
-
+    
 end module func_module
-
 
 
 program asg3_6 
@@ -86,7 +83,7 @@ program asg3_6
     integer :: fi = 10,io,i,count,split
     real(8) ,allocatable :: xs(:)
 
-    open(fi, file='asg3_6file/inpasg3a6.d', action='read', iostat=io)
+    open(fi, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
     if (io /= 0) stop 'Filure to open file.'
     !ファイル読み込みに失敗→終了
 
@@ -97,7 +94,6 @@ program asg3_6
     ! write (*,*) 'Input initial value'
     ! read (*,*) x1
     !初期値を決めて動かしたいときは ↑ プログラムノコメント解除　↓ をコメントし、integer にx1を定義
-
 
     write(*,*) "Input calculate range f and l (f < range < l)"
     read(*,*) f, l
