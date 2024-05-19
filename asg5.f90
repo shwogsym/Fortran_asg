@@ -12,9 +12,8 @@ module func_module
         
         real (8) ,parameter :: er0 = 1.0d-15
         integer  ,parameter :: output_file_number = 11
-        
-        k = 0
 
+        k = 0
         er = 1
         do while (er > er0 .and. k < k_max) 
 

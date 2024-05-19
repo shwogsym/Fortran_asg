@@ -62,8 +62,9 @@ program asg6
     !a,b,c,dを３次関数の係数と初期値
     close(input_file_number)
     
-    do i = -200,200,1
+    do i = -200,200,1 
         xs = i / 100.0d0
+        !0.01刻みで-2から2まで収束計算を行う。
         call newton(a, b, c, d, xs, k)
     enddo 
 

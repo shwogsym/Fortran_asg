@@ -1,5 +1,4 @@
-!今のところこのプログラムは解の判定が一つしかできないから、複数の解で計算できるように改善したい。
-
+!asg3and6の修正に使う予定だからまだ消さない
 
 module func_module
     implicit none 
@@ -71,7 +70,7 @@ module func_module
         end do
 
     end subroutine hantei
-    
+
 end module func_module
 
 
