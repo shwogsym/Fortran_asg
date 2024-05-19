@@ -1,3 +1,5 @@
+!解像度上げたい。
+
 module func_module 
     implicit none 
     contains 

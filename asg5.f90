@@ -2,7 +2,6 @@
 
 module func_module
     implicit none
-
     contains 
 
     subroutine newton(a,b,c,x1,k)
@@ -13,7 +12,7 @@ module func_module
         
         real (8) ,parameter :: er0 = 1.0d-15
         integer  ,parameter :: output_file_number = 11
-
+        
         k = 0
 
         er = 1
@@ -35,11 +34,7 @@ module func_module
 
             k = k + 1
         enddo
-
     end subroutine newton
-
-
-
 
     subroutine bisection_method(a, b, c, x1, x2, k, xm)
         implicit none 
@@ -47,36 +42,29 @@ module func_module
         integer :: k, k_max = 1000, output_file_number = 12
         real(8), parameter :: er = 1.0e-15
     
-    
         if (func(a, b, c, x1) * func(a, b, c, x2) > 0) then
             stop 'One of the values should be positive and the other negative.'
         endif 
-        !２つの初期値が二分法を回す条件を満たしているのか検証
-    
+        !２つの初期値が二分法を回す条件を満たしているのか検証(hanteiで出してるから二度手間ではある)
         k = 0 
-    
         do while (abs(x2 - x1) > er .and. k < k_max) 
             xm = (x1 + x2) / 2.0
             fm = func(a, b, c, xm)
-            !中央値の計算
-    
+           
             if (fm < 0) then
-                 !中点の値が0以下のとき→x1,x2の中負の値の方と値を交換したい。↓で判定
                 if (func(a, b, c, x2) < 0) then
                     x2 = xm
                 else 
                     x1 = xm
                 endif 
             else 
-                !else つまり、中点の値が0より大きいとき同様に判定
                 if (func(a, b, c, x2) > 0) then
                     x2 = xm
                 else 
                     x1 = xm
                 endif 
             endif
-            !中点の値に応じて初期値の入れ替えを行い、次のサイクルに準備
-    
+            
             k = k + 1 
             write(output_file_number,'(I2.2, 2X, F24.16)') k, xm 
         end do
@@ -86,8 +74,6 @@ module func_module
     implicit none     
     real(8) :: a, b, c, x    
     func = a*x**2.0d0 + b*x + c
-
-        
 end function func
 
 end module func_module
@@ -105,7 +91,7 @@ program asg5_1
 
 
     open(input_file_number, file='asg5_file/inpasg5.dat', action='read', iostat=io)
-    if (io /= 0) stop 'Filure to open file.'
+    if (io /= 0) stop 'Filure to open input file.'
 
     read(input_file_number,*) a,b,c,xn,x1,x2 !この順でinputfileを入力
 
@@ -113,13 +99,10 @@ program asg5_1
 
     write(*,*) 'The magnitude of the Error :',er0
 
-
-
     write(*,*) 'Newtons method'
 
-
     open(output_file_number, file='asg5_file/outasg5_1.dat',action = 'write',iostat = io)
-    if (io /= 0) stop 'Failure to read file'
+    if (io /= 0) stop 'Failure to open output file'
     call newton(a,b,c,xn,k)
 
     if (k == max_t) then
@@ -135,7 +118,7 @@ program asg5_1
     write(*,*) 'Bisection method'
 
     open(output_file_number+1, file='asg5_file/outasg5_2.dat',action = 'write',iostat = io)
-    if (io /= 0) stop 'Failure to read file'
+    if (io /= 0) stop 'Failure to optn output file'
 
     call bisection_method(a, b, c, x1, x2, k, xm)
 

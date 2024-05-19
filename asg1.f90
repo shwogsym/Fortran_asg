@@ -1,5 +1,5 @@
 !二次関数の解の公式
-!複素要素もいれる
+!複素解も組み込みたい
 
 module func_module
     implicit none 

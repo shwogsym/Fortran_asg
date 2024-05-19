@@ -16,7 +16,7 @@ module func_module
 
         write(filename, '("asg6_file/data.dat")') 
         open(output_file_number, file= filename, action='write',iostat=io)
-        if (io /= 0) stop 'Failure to read file'
+        if (io /= 0) stop 'Failure to open output file'
 
 
         do k = 1,k_max 
@@ -56,7 +56,7 @@ program asg6
     integer ,parameter   :: input_file_number = 10
 
     open(input_file_number, file='asg6_file/inpasg6.dat', action='read', iostat=io)
-    if (io /= 0) stop 'Filure to open file.'
+    if (io /= 0) stop 'Filure to read input file.'
     !ファイル読み込みに失敗→終了
 
     read(input_file_number,*) a,b,c,d,xs

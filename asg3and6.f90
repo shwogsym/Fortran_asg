@@ -1,12 +1,14 @@
 !任意区間での任意の三次関数解をでニュートン法で求めるプログラム
 !課題６が初期値を措定するプログラムだからそれはそれで必要
 
+
+!解が3つ出ないから修正したい。
+
 module func_module
     implicit none 
-    
     contains 
 
-    subroutine newton(a, b, c, d,x1,i,k)
+    subroutine newton(a,b,c,d,x1,i,k)
         implicit none 
         real(8) a, b, c,d, x1, x2,f,df,er
         real(8) ,parameter :: er0=1.0d-15
@@ -16,11 +18,9 @@ module func_module
         integer ,parameter :: output_file_number = 11
         character(32)      :: filename
 
-
         write(filename, '("asg3_6_file/data_"i2.2".dat")') i
         open(output_file_number, file= filename, action='write',iostat=io)
-        if (io /= 0) stop 'Failure to read file'
-
+        if (io /= 0) stop 'Failure to open output file'
 
         do k = 1,km 
 
@@ -28,7 +28,7 @@ module func_module
             df = 3*a*x1**2 + 2*b*x1 + c                 ! f'(x)
 
             if (df == 0) then
-                print *, 'Error, derivative is zero.'
+                write(*,*) 'Error, derivative is zero.'
                 exit
             endif
             !導関数が0のとき、収束がないため
@@ -70,15 +70,13 @@ module func_module
                 if (x2 /= 0) then
                     count = count + 1
                     xs(count) = x2
-                endif    
+                endif
                 if (count == 100) exit
             endif
             x1 = x2
             x2 = x1 + step
         end do
-
     end subroutine hantei
-
 
 end module func_module
 
@@ -88,18 +86,17 @@ program asg3_6
     use func_module
     implicit none
 
-    real (8) :: a,b,c,d,f,l
-    integer :: fi = 10,io,i,count,split,k
+    real (8) a,b,c,d,f,l
+    integer  io,i,count,split,k
     real(8) ,allocatable :: xs(:)
+    integer :: input_file_number = 10
 
-    open(fi, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
-    if (io /= 0) stop 'Filure to open file.'
-    !ファイル読み込みに失敗→終了
+    open(input_file_number, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
+    if (io /= 0) stop 'Filure to open inout file.'
 
-    read(fi,*) a,b,c,d,f,l,split
+    read(input_file_number,*) a,b,c,d,f,l,split
     !a,b,c,dを３次関数の係数としてそれぞれファイルに入力　"Input calculate range f and l (f < range < l)" and split time
-    close(fi)
-
+    close(input_file_number)
 
     call hantei(a,b,c,f,l,xs,count,split)
 

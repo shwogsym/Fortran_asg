@@ -18,7 +18,7 @@ module func_module
 
     t = 0 
     open(fi, file = 'outasg4.d',iostat = io)
-    if (io /= 0) stop 'Failure to read file'
+    if (io /= 0) stop 'Failure to read output file'
 
     do while (abs(x2 - x1) > er .and. t < max_t) 
         xm = (x1 + x2) / 2.0
@@ -33,7 +33,7 @@ module func_module
                 x1 = xm
             endif 
         else 
-            !else つまり、中点の値が0より大きいとき同様に判定
+            !else 中点の値が0より大きいとき同様に判定
             if (func(a, b, c, x2) > 0) then
                 x2 = xm
             else 
@@ -56,8 +56,6 @@ module func_module
     end function func
 
 end module func_module
-
-
 
 program asg4 
     use func_module

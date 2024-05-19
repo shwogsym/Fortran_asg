@@ -20,7 +20,7 @@ module func_module
         write(filename, '("asg4_file/data_"i2.2".dat")') i
         ! ファイルを開く
         open(i+10, file=filename, status = "replace",iostat=io)
-        if (io /= 0) stop 'Failure to read file'
+        if (io /= 0) stop 'Failure to open output file'
 
         t = 0
         do while (abs(x2 - x1) > er .and. t < max_t) 
@@ -42,8 +42,7 @@ module func_module
             endif
 
             t = t + 1
-            write(i+10,'(I2.2, 2X, F24.16)') t, xm
-
+            write(i+10,'(I2.2, 2X, F24.16)') t, xm  !gnuplotでプロットする場合、02とかは構文エラー吐くから修正
         end do
 
         close(fi)
@@ -69,8 +68,7 @@ module func_module
         allocate(x2s(split))
         !一応 100分割だからこれで十分
 
-        step = (abs(l - f)) / split
-        !一応100分割をしてるけど、関数や走査範囲により不都合が生じる可能性がある。
+        step = (abs(l - f)) / split  !'split'間隔で走査を行う。
 
         x1 = f
         x2 = x1 + step
@@ -128,7 +126,6 @@ program asg4
         write(*,*) 'Number of repetitions for interval ', i, ':', t
         write(*,*) 'Output file : "asg4_file/data_', i, '.dat"'
     end do
-   
 
 end program asg4
         
