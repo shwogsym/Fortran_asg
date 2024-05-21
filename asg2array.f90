@@ -17,7 +17,7 @@ program read_data
   
    integer :: i, j, io
    integer, parameter :: max_rows = 100, max_cols = 100
-   integer :: size_lines, size_columns = 2, Fix_colum_number = 2 !→修正したいデータ列の番号
+   integer :: size_lines, size_columns = 2, Fix_colum_number = 2 ! Size_colums→　データの行数を指定、Fix_colum_number →修正したいデータ列の番号 、データの行数については動的に決定される。
    integer :: input_file_number = 10, output_file_number = 11
    
    real(8) :: line(max_cols) 
