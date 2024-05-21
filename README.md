@@ -1,7 +1,9 @@
 Fortran プログラミング問題集
 
-　課題プログラム　　→　asg00.f90  
-出力、入力ファイル　→　asg00_file  
+課題プログラム　→　asg00.f90  
+入出力ファイル　→　asg00_file  
+入力ファイル名　→　inpasg00.dat  
+出力ファイル名　→　outasg00.dat  
 
 asg1: 二次方程式を解の公式で解く  
 asg2: inpoutファイルに任意演算を行う(-0.01)  
