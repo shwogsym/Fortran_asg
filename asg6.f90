@@ -18,7 +18,8 @@ module func_module
         open(output_file_number, file= filename, action='write',iostat=io)
         if (io /= 0) stop 'Failure to open output file'
 
-
+        write (output_file_number,'(I2.2, 2X, F24.16)') 0,x1 !初期値の記録
+        
         do k = 1,k_max 
 
             f = a*x1**3 + b*x1**2 + c*x1 + d            ! f(x)

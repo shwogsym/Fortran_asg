@@ -7,12 +7,12 @@ module func_module
     !二分法の計算、出力をするプログラム
     subroutine bisection_method(a, b, c, x1, x2, t, xm,i)
         implicit none 
-        real(8) :: a, b, c, x1, x2, xm, fm
-        integer :: t, max_t = 1000, fi = 10, io,i
-        real(8), parameter :: er = 1.0e-15
+        real(8) a, b, c, x1, x2, xm, fm
+        integer t,io, i
 
-        integer,       parameter :: output_file_number = 10
-        character(32)            :: filename
+        real(8), parameter :: er = 1.0e-15
+        integer, parameter :: output_file_number = 10, max_t = 1000
+        character(32)      :: filename
         
         if (func(a, b, c, x1) * func(a, b, c, x2) > 0) stop 'One of the values should be positive and the other negative.'
     
@@ -45,7 +45,7 @@ module func_module
             write(i+10,'(I2.2, 2X, F24.16)') t, xm  !gnuplotでプロットする場合、02とかは構文エラー吐くから修正
         end do
 
-        close(fi)
+        close(output_file_number)
     end subroutine bisection_method
 
     !使う関数の定義をここで
@@ -100,19 +100,13 @@ program asg4
     real(8) a, b, c, f, l
     real(8), allocatable :: x1s(:), x2s(:)
     real(8) xm
-    integer :: t, i, count, split
+    integer t, i, count, split, io
+    integer, parameter :: input_file_number = 11
     
-    !二次関数の係数を指定
-    a = 1.0d0
-    b = 0.0d0
-    c = -2.0d0
+    open(input_file_number, file = 'asg4_file/inpasg4.dat', status='old', action='read', iostat=io)
+    if (io /= 0) stop 'Filure to open input file.'
 
-    write(*,*) "Input calculate range f and l (f < range < l)"
-    read(*,*) f, l
-
-    write(*,*) "Input split time"
-    read(*,*) split
-
+    read(input_file_number,*) a,b,c,f,l,split
 
     call hantei(a, b, c, f, l, x1s, x2s, count,split)
 

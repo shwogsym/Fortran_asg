@@ -6,8 +6,9 @@ module func_module
 
     subroutine bisection_method(a, b, c, x1, x2, t, xm)
     implicit none 
-    real(8) :: a, b, c, x1, x2, xm, fm
-    integer :: t, max_t = 1000, fi = 10,io
+    real(8) a, b, c, x1, x2, xm, fm
+    integer t,io
+    integer, parameter :: output_file_number = 11 ,max_t = 1000
     real(8), parameter :: er = 1.0e-15
 
 
@@ -17,8 +18,8 @@ module func_module
     !２つの初期値が二分法を回す条件を満たしているのか検証
 
     t = 0 
-    open(fi, file = 'outasg4.d',iostat = io)
-    if (io /= 0) stop 'Failure to read output file'
+    open(output_file_number, file = 'outasg4.d',iostat = io)
+    if (io /= 0) stop 'Failure to open output file'
 
     do while (abs(x2 - x1) > er .and. t < max_t) 
         xm = (x1 + x2) / 2.0
@@ -43,10 +44,10 @@ module func_module
         !中点の値に応じて初期値の入れ替えを行い、次のサイクルに準備
 
         t = t + 1 
-        write(fi,*) t, xm 
+        write(output_file_number,*) t, xm 
     end do
+    close(output_file_number)
 
-    close(fi)
     end subroutine bisection_method
 
     real(8) function func(a, b, c, x)
@@ -61,15 +62,13 @@ program asg4
     use func_module
     implicit none 
     real(8) a, b, c, x1, x2, xm
-    integer :: t, max_t = 1000
+    integer t, io
+    integer, parameter :: input_file_number = 10, max_t = 1000
 
-    a = 0.0d0
-    b = -2.0d0
-    c = 2.0d0
-    !係数の指定
+    open(input_file_number, file = 'asg4_file/inpasg4.dat', status='old', action='read', iostat=io)
+    if (io /= 0) stop 'Filure to open input file.'
 
-    write(*,*) "Input the start value x1 and end value x2"
-    read(*,*) x1, x2
+    read(input_file_number,*) a,b,c,x1,x2
 
     call bisection_method(a, b, c, x1, x2, t, xm)
 
