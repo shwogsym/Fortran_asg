@@ -43,17 +43,13 @@ module func_module
         close (output_file_number) 
     end subroutine newton
 
-
     subroutine hantei(a,b,c,f,l,xs,count,split)
         implicit none 
         real(8) :: a, b, c,f, l, step, x1, x2
         integer :: i, count, split
         real(8), allocatable :: xs(:)
-        !ディメンションを任意とした配列 
         real(8) :: test1, test2
-
-        allocate(xs(split))
-        !最大分の配列を作っとく
+        allocate(xs(split))!最大分の配列を作っとく
 
         step = (abs(l - f)) / split
         
@@ -76,10 +72,7 @@ module func_module
             x2 = x1 + step
         end do
     end subroutine hantei
-
 end module func_module
-
-
 
 program asg3_6 
     use func_module
@@ -105,8 +98,6 @@ program asg3_6
         write(*,*) 'Number of repetitions for interval ', i, ':', k
         write(*,*) 'Output file : "asg4_file/data_', i, '.dat"'
     enddo 
-
-
 end program asg3_6
 
 

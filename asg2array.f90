@@ -10,7 +10,6 @@ module func_module
    end subroutine Fix_data
 end module func_module
 
-
 program read_data
    use func_module
    implicit none
