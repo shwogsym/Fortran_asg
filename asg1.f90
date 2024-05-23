@@ -31,8 +31,6 @@ module func_module
 end module func_module
 
 
-
-
 program asg1
     use func_module
     implicit none
@@ -51,7 +49,7 @@ program asg1
     call solution_formula(a,b,c,x1,x2) !解の係数公式の呼び出し　→　解を得る
 
     write (*,*) 'Output file was made in asg1_file'
-    
+
 end program asg1
 
 

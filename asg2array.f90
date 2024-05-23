@@ -53,6 +53,6 @@ program read_data
        end do
        write(output_file_number, *) !ファイル内での改行
    end do
-   close(output_file_number) 
+   close(output_file_number)
 
 end program read_data
