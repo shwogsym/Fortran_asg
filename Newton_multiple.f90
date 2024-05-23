@@ -16,7 +16,7 @@ module func_module
         integer ,parameter :: output_file_number = 11
         character(32)      :: filename
 
-        write(filename, '("asg3_6_file/data_"i2.2".dat")') i
+        write(filename, '("Newtom_m_file/data_"i2.2".dat")') i
         open(output_file_number, file= filename, status='replace', action='write',iostat=io)
         if (io /= 0) stop 'Failure to open output file'
 
@@ -83,7 +83,7 @@ program asg3_6
     real(8) ,allocatable :: xs(:)
     integer :: input_file_number = 10
 
-    open(input_file_number, file='asg3_6_file/inpasg3_6.dat', status='old',action='read', iostat=io)
+    open(input_file_number, file='Newton_m_file/inpasg3_6.dat', status='old',action='read', iostat=io)
     if (io /= 0) stop 'Filure to open inout file.'
 
     read(input_file_number,*) a, b, c, d, f, l, split

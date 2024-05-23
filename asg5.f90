@@ -1,5 +1,3 @@
-!時間計測機能の組み込みもしたいかな
-
 module func_module
     implicit none
     contains 
@@ -44,7 +42,7 @@ module func_module
         if (func(a, b, c, x1) * func(a, b, c, x2) > 0) then
             stop 'One of the values should be positive and the other negative.'
         endif 
-        !２つの初期値が二分法を回す条件を満たしているのか検証(hanteiで出してるから二度手間ではある)
+        
         k = 0 
         do while (abs(x2 - x1) > er .and. k < k_max) 
             xm = (x1 + x2) / 2.0

@@ -1,4 +1,4 @@
-!初期値入力型の二分法プログラム
+!初期値入力型の二分法プログラム、係数は2次以下で任意
 
 module func_module
     implicit none
