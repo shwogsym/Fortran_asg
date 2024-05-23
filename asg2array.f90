@@ -1,6 +1,6 @@
 !データ修正の演算をここで定義
 module func_module
-   implicit none   
+   implicit none  
    contains
 
    subroutine Fix_data(x)

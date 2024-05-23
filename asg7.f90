@@ -59,4 +59,4 @@ program asg7
     deallocate(f) 
 
     write(*,*) 'Approximate integral of sin(x) = ', integral_appro 
-end program asg7 
+end program asg7  
