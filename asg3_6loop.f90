@@ -59,7 +59,7 @@ program asg6
     !ファイル読み込みに失敗→終了
 
     read(input_file_number,*) a,b,c,d
-    !a,b,c,dを３次関数の係数と初期値
+    !a,b,c,dを３次関数の係数として読み込む
     close(input_file_number)
     
     do i = -200,200,1 

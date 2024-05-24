@@ -1,6 +1,8 @@
 !任意区間での任意の三次関数解をでニュートン法で求めるプログラム
-!0付近での動作が不安定 →　プログラムが間違ってるわけではなくて、局地付近で値が飛んでるだけ。実際に初期値を確認すると±0.5 くらいのときに、0収束判定が出ない
-!初期値として選択されたものを画面出力に出すといいかもしれない。
+
+!入出力はNewton_m_file
+!入力ファイルはinpasg_nm.dat
+!出力ファイルはdata_01.dat, data_02.dat, data_03.dat,,,
 
 module func_module
     implicit none 
@@ -83,7 +85,7 @@ program asg3_6
     real(8) ,allocatable :: xs(:)
     integer :: input_file_number = 10
 
-    open(input_file_number, file='Newton_m_file/inpasg3_6.dat', status='old',action='read', iostat=io)
+    open(input_file_number, file='Newton_m_file/inpasg_nm.dat', status='old',action='read', iostat=io)
     if (io /= 0) stop 'Filure to open inout file.'
 
     read(input_file_number,*) a, b, c, d, f, l, split

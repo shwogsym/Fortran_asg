@@ -46,7 +46,6 @@ module func_module
 end module func_module
 
 
-
 program asg6 
     use func_module
     implicit none
