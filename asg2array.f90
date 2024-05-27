@@ -1,13 +1,24 @@
 !データ修正の演算をここで定義
+!修正後データを最も右の列に出力したい
+
 module func_module
     implicit none  
     contains
  
-    subroutine Fix_data(x)
+    subroutine Fix_data(r)
+        implicit none 
+        real(8) r
+        r = r - 0.01d0
+    end subroutine Fix_data
+
+    subroutine calc_data(x) !なにかおもしろい演算でも考えたら、
         implicit none 
         real(8)x
-        x=x-0.01d0
-    end subroutine Fix_data
+        x=x+0.01d0
+    end subroutine calc_data
+
+
+
  end module func_module
  
  program read_data

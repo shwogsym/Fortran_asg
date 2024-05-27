@@ -22,8 +22,8 @@ module func_module
         
         do k = 1,k_max 
 
-            f = a*x1**3 + b*x1**2 + c*x1 + d            ! f(x)
-            df = 3*a*x1**2 + 2*b*x1 + c                 ! f'(x)
+            f = a*x1**3.0d0 + b*x1**2.0d0 + c*x1 + d            ! f(x)
+            df = 3.0d0*a*x1**2.0d0 + 2.0d0*b*x1 + c                 ! f'(x)
 
             if (df == 0) then
                 print *, 'Error, derivative is zero.'
