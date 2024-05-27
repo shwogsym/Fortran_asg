@@ -11,12 +11,6 @@ module func_module
         r = r - 0.01d0
     end subroutine Fix_data
 
-    subroutine calc_data(x) !なにかおもしろい演算でも考えたら、
-        implicit none 
-        real(8)x
-        x=x+0.01d0
-    end subroutine calc_data
-
  end module func_module
  
 
@@ -49,7 +43,10 @@ module func_module
 
         write(filename, '("asg2_file/"i2.2".dat")') i
         open(i+output_file_number, file=filename, status = "replace",iostat=io)
+
         if (io /= 0) stop 'Failure to open output file'
+
+        !これは、全てのデータに付いて、Fix_column_number列目のデータを修正する、プログラム
         do j = 1, size_columns
             if(j == Fix_colum_number) then 
                 call Fix_data(line(j))
@@ -60,6 +57,8 @@ module func_module
         enddo
         close(i+output_file_number)
     enddo
+
+
  
 
  end program read_data
