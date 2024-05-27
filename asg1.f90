@@ -26,15 +26,15 @@ subroutine solution_formula(a,b,c,x1,x2)
             sqrt_D = sqrt(-D)
             x1_c = cmplx(-b /(2.0d0*a), sqrt_D/(2.0d0*a), kind = 8)
             x2_c = cmplx(-b /(2.0d0*a), -sqrt_D/(2.0d0*a), kind = 8)
-            write(output_file,'(a,2e11.3)') 'x1 = ',x1_c
-            write(output_file,'(a,2e11.3)') 'x2 = ',x2_c
+            write(output_file,'(a,2F24.16,a)') 'x1 = ',x1_c ,'i'
+            write(output_file,'(a,2F24.16,a)') 'x2 = ',x2_c ,'i'
 
-            write(*,'(a,2e11.3)') 'x1 = ',x1_c
-            write(*,'(a,2e11.3)') 'x2 = ',x2_c
+            write(*,'(A,2F24.16,A)') 'x1 = ',x1_c ,'i'
+            write(*,'(A,2F24.16,A)') 'x2 = ',x2_c ,'i'
             stop
         endif 
 
-        !ここから実数解計算
+        !実数解計算
 
         sqrt_D = sqrt(D)
         if (b >= 0) then
@@ -48,10 +48,10 @@ subroutine solution_formula(a,b,c,x1,x2)
         ! x1 = (-b+(b**2-4*a*c)**0.5)/(2*a)
         ! x2 = (-b-(b**2-4*a*c)**0.5)/(2*a)
 
-
         write (output_file,*) 'x =',x1,x2
         write (*,*) 'x =',x1,x2
-    endif     
+    endif
+
     close(output_file)
 end subroutine solution_formula    
 end module func_module
