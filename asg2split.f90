@@ -16,11 +16,9 @@ module func_module
         real(8)x
         x=x+0.01d0
     end subroutine calc_data
-    
+
  end module func_module
  
-
-
 
  program read_data
     use func_module
@@ -30,6 +28,7 @@ module func_module
     integer, parameter :: max_rows = 100, max_cols = 100
     integer :: size_lines, size_columns = 2
     integer :: input_file_number = 10, output_file_number = 11
+    integer :: Fix_colum_number = 2
 
      character(32) :: filename
     
@@ -52,11 +51,14 @@ module func_module
         open(i+output_file_number, file=filename, status = "replace",iostat=io)
         if (io /= 0) stop 'Failure to open output file'
         do j = 1, size_columns
-            call Fix_data(line(j))
+            if(j == Fix_colum_number) then 
+                call Fix_data(line(j))
+                write(i+output_file_number,'(F24.16)') line(j)
+            else
             write(i+output_file_number,'(F24.16)') line(j)
+            endif
         enddo
         close(i+output_file_number)
-
     enddo
  
 
