@@ -4,8 +4,9 @@ contains
 
 subroutine solution_formula(a,b,c,x1,x2)
     implicit none 
-    real (8) a,b,c,x1,x2,D,sqrt_D
-    integer ,parameter ::input_file = 10 ,output_file = 11
+    real (8) :: a, b, c, x1, x2, D, sqrt_D
+    integer ,parameter :: input_file = 10, output_file = 11
+    complex (8) :: x1_c, x2_c
     
     D = b**2 - 4.0d0*a*c
     sqrt_D = sqrt(D)
@@ -19,17 +20,22 @@ subroutine solution_formula(a,b,c,x1,x2)
             write(*,*) 'x = ',x1
         endif 
     else 
-        if (D < 0) stop 'Invalid input D < 0'   
-        
+
+        if (D < 0) then 
+            x1_c = (-b + sqrt_D) / (2.0d0*a)
+            x2_c = (-b - sqrt_D) / (2.0d0*a)
+            write(output_file,*) 'x = ',x1_c, x2_c
+            write(*,*) 'x = ',x1_c, x2_c
+
         ! x1 = (-b+(b**2-4*a*c)**0.5)/(2*a)
         ! x2 = (-b-(b**2-4*a*c)**0.5)/(2*a)
 
-        if (b > 0) then
-            x1 = (-b - sqrt_D) / (2*a)
-            x2 = 2*c / (-b - sqrt_D)
+        else if (b > 0) then
+            x1 = (-b - sqrt_D) / (2.0d0*a)
+            x2 = 2.0d0*c / (-b - sqrt_D)
         else
-            x1 = 2*c / (-b + sqrt_D)
-            x2 = (-b + sqrt_D) / (2*a)
+            x1 = 2.0d0*c / (-b + sqrt_D)
+            x2 = (-b + sqrt_D) / (2.0d0*a)
         endif
         write (output_file,*) 'x =',x1,x2
         write (*,*) 'x =',x1,x2
