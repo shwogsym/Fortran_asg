@@ -31,12 +31,12 @@ program read_data
 
    !データの読み込み
    do i = 1, max_rows
-       read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns) !1列分のデータの読み込み
-       if(io /= 0) exit !データ行の最終行を検出
-       size_lines = size_lines + 1
+       read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns) !1行分のデータの読み込み
+       if(io /= 0) exit !データ行のデータ端を検出
+       size_lines = size_lines + 1 !データ行数のカウント
 
        do j = 1, size_columns
-           lines(i, j) = line(j) !1列分　(line)のデータを linesに格納
+           lines(i, j) = line(j) !1行分　(line)のデータを linesに格納
        end do
    end do
    close(input_file_number)
