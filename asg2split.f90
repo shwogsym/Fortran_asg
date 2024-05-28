@@ -4,14 +4,40 @@
 module func_module
     implicit none  
     contains
- 
+
+    !バックグラウンド値の引き算
     subroutine Fix_data(r)
         implicit none 
         real(8) r
         r = r - 0.01d0
     end subroutine Fix_data
 
- end module func_module
+    !最大値取得、プログラム
+    subroutine max_value(size_lines, max_x)
+        implicit none
+        integer :: i, io, size_lines
+        real(8) :: x, n, max_x
+        integer :: edit_file_number = 100
+        character(32) :: filename
+
+
+        do i = 1, size_lines
+
+            write(filename, '("asg2_file/"i2.2".dat")') i
+            open(i + edit_file_number, file=filename, status = "old",iostat=io)
+            read(i + edit_file_number, *) n, x
+            close(i + edit_file_number)
+
+            if (i == 1) then 
+                max_x = x    
+            else
+                if (x > max_x) then
+                    max_x = x
+                endif
+            endif
+        enddo
+    end subroutine max_value
+end module func_module
  
 
  program read_data
@@ -24,15 +50,14 @@ module func_module
     integer :: input_file_number = 10, output_file_number = 11
     integer :: Fix_colum_number = 2
     character(32) :: filename
-    real(8) :: line(max_cols) 
+    real(8) :: line(max_cols), max_x
 
     size_lines = 0
   
     open(input_file_number, file='asg2_file/inpasg2.dat', status='old', action='read',iostat = io)
     if (io /= 0) stop 'Failure to open input file'
-    open(output_file_number, file='asg2_file/outasg2.dat', status='replace', action='write',iostat = io)
-    if (io /= 0) stop 'Failure to open output file'
- 
+
+    size_lines = 0
     !データの読み込み
     do i = 1, max_rows
         read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns) !1行分のデータの読み込み
@@ -42,7 +67,7 @@ module func_module
         open(i+output_file_number, file=filename, status = "replace",iostat=io)
         if (io /= 0) stop 'Failure to open output file'
 
-        !これは、全てのデータについて、Fix_column_number列目のデータを修正する、プログラム
+        !これは、全てのデータについて、Fix_column_number列目のデータを修正、各行を連番ファイルに出力
         do j = 1, size_columns
             if(j == Fix_colum_number) then 
                 call Fix_data(line(j))
@@ -52,8 +77,10 @@ module func_module
             endif
         enddo
         close(i+output_file_number)
-    enddo
 
+        size_lines = size_lines + 1
+
+    enddo
     close(input_file_number)
 
     !どうすればいいんだろうか、指定の行っていうのは、inputファイルのナンバリングとしてある nを参照すればいいのか、
@@ -72,7 +99,9 @@ module func_module
     !2番目さいだいとかもだしたり、ソートとかもしてみたいかなー
 
 
-
- 
-
+    !最大値取得、プログラム
+    call max_value(size_lines, max_x)
+    write(*,*) max_x 
+    !制度が微妙だから底だけ再検討
+    
  end program read_data
