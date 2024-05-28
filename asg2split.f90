@@ -13,13 +13,12 @@ module func_module
     end subroutine Fix_data
 
     !最大値取得、プログラム
-    subroutine max_value(size_lines, max_x)
+    subroutine max_value(size_lines, max_x,max_n)
         implicit none
         integer :: i, io, size_lines
-        real(8) :: x, n, max_x
+        real(8) :: x, n, max_x, max_n
         integer :: edit_file_number = 100
         character(32) :: filename
-
 
         do i = 1, size_lines
 
@@ -30,9 +29,11 @@ module func_module
 
             if (i == 1) then 
                 max_x = x    
+                max_n = n
             else
                 if (x > max_x) then
                     max_x = x
+                    max_n = n
                 endif
             endif
         enddo
@@ -50,7 +51,7 @@ end module func_module
     integer :: input_file_number = 10, output_file_number = 11
     integer :: Fix_colum_number = 2
     character(32) :: filename
-    real(8) :: line(max_cols), max_x
+    real(8) :: line(max_cols), max_x, max_n
 
     size_lines = 0
   
@@ -100,8 +101,10 @@ end module func_module
 
 
     !最大値取得、プログラム
-    call max_value(size_lines, max_x)
-    write(*,*) max_x 
+    call max_value(size_lines, max_x, max_n)
+    write(*,'(F24.16)') max_n
+    write(*,'(F24.16)') max_x 
     !制度が微妙だから底だけ再検討
+    
     
  end program read_data
