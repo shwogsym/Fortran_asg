@@ -1,5 +1,5 @@
-!データ修正の演算をここで定義
-!修正後データを最も右の列に出力したい
+
+!このモジュール内には、データの修正を行うサブルーチンが含まれている。
 
 module func_module
     implicit none  
@@ -11,13 +11,13 @@ module func_module
         r = r - 0.01d0
     end subroutine Fix_data
 
-    subroutine calc_data(x) !なにかおもしろい演算でも考えたら、
+    subroutine calc_data(x) !なにかおもしろい演算でも考えたら、ここに作ろうかな
         implicit none 
         real(8)x
         x=x+0.01d0
     end subroutine calc_data
-    
  end module func_module
+
  
  program read_data
     use func_module
