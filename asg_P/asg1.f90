@@ -41,17 +41,17 @@ program asg1
     integer :: io
     integer ,parameter ::input_file = 10 ,output_file = 11
 
-    open (input_file ,file = 'asg1_file/inpasg1.dat',action = 'read',iostat = io)
-    if(io /= 0) stop 'Error : failed to open file'
-    open (output_file, file = 'asg1_file/outasg1.dat',action = 'write',iostat = io)
-    if(io /= 0) stop 'Error : failed to open file'
+    open (input_file ,file = 'inpasg1.dat',action = 'read',iostat = io)
+    if(io /= 0) stop 'Error : failed to open input file'
+    open (output_file, file = 'outasg1.dat',action = 'write',iostat = io)
+    if(io /= 0) stop 'Error : failed to open output file'
 
     read(input_file,*) a,b,c
     close(input_file)
 
     call solution_formula(a,b,c,x1,x2) 
 
-    write (*,*) 'Output file was made in asg1_file directory with name outasg1.dat'
+    write (*,*) 'Output file was made : name outasg1.dat'
 
 end program asg1
 
