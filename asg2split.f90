@@ -19,7 +19,6 @@ module func_module
     !最大値取得サブルーチン
     subroutine max_value(size_lines, max_x, max_filename)
         !サイズラインは、ファイルの数を示し、max_xは最大値、max_filenameは最大値があるファイル名とする。
-
         implicit none
         integer :: i, io, size_lines
         real(8) :: x, n, max_x
@@ -54,7 +53,8 @@ module func_module
         implicit none
         character(32) :: max_filename,filename
         character(2) :: file_num
-        integer :: i, io, max_file_data_number, edit_file_number = 110, max_file_number = 210, size_lines
+        integer :: i, io, max_file_data_number, size_lines
+        integer ,parameter :: data_r = 2, edit_file_number = 110, max_file_number = 210
         real(8) :: x, n
                 
         ! max_filenameからファイル番号を抽出し、整数に変換する
@@ -73,20 +73,23 @@ module func_module
 
         file_num = max_filename(11:12)
         read(file_num, '(I2)', iostat=io) max_file_data_number
+
         if (io/= 0) then
             write(*,*) 'Error: Failed to convert file number from filename.'
             stop
         endif
 
-        do i = max_file_data_number - 1, max_file_data_number + 1
-            write(filename, '("asg2_file/"i2.2".dat")') i
-            open(i + edit_file_number, file=filename, status = "old", iostat=io)
-            if (io /= 0) then
-                write(*,*)  'Failure to open output file for get_max_around_data'
-                exit
-            end if
-            read(i + edit_file_number, *) n, x
-            
+        do i = max_file_data_number - data_r, max_file_data_number + data_r
+            if (i > 0) then 
+                write(filename, '("asg2_file/"i2.2".dat")') i
+                open(i + edit_file_number, file=filename, status = "old", iostat=io)
+
+                if (io /= 0) then
+                    write(*,*)  'Failure to open output file for get_max_around_data'
+                end if
+                read(i + edit_file_number, *) n, x                
+            end if 
+
             !同じデータをasg2v2_fileに書き込む
             write(filename, '("asg2_out/"i2.2".dat")') i
             open(i + max_file_number, file=filename, status = "replace", iostat=io)
