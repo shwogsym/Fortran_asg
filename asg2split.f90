@@ -62,7 +62,7 @@ end module func_module
         
 
         write(filename, '("asg2_file/"i2.2".dat")') i
-        open(i+output_file_number, file=filename, status = "replace",iostat=io)
+        open(i+output_file_number, file=filename, status = "replace", iostat = io)
         if (io /= 0) stop 'Failure to open output file'
 
         !これは、全てのデータについて、Fix_column_number列目のデータを修正、各行を連番ファイルに出力
