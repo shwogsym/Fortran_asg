@@ -10,13 +10,13 @@ module func_module
         real(8) r
         r = r - 0.01d0
     end subroutine Fix_data
-
-    subroutine calc_data(x) !なにかおもしろい演算でも考えたら、ここに作ろうかな
+    !値を-2乗するサブルーチン
+    subroutine Fix_data2(r)
         implicit none 
-        real(8)x
-        x=x+0.01d0
-    end subroutine calc_data
- end module func_module
+        real(8) r
+        r = r**(-2)
+    end subroutine Fix_data2
+end module func_module
 
  
  program read_data

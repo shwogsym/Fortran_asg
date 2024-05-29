@@ -35,7 +35,7 @@ module func_module
             read(i + edit_file_number, *) n, x
             close(i + edit_file_number)
 
-            !初期値を基準に判定を行う
+            !初期値を基準に判定を行う、単純な値の入れ替え
             if (i == 1) then 
                 max_x = x    
                 max_filename = filename
