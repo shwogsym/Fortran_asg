@@ -17,16 +17,15 @@ subroutine solution_formula(a,b,c,x1,x2)
     
     if (a == 0.0) then
         if(b == 0.0) then 
-            stop "Invalid input a,b = 0"
+            stop "Error: Invalid input a,b = 0"
         else 
             x1 = -c/b 
-            write(output_file,*) 'x = ',x1
+            write(output_file,'(F26.16)') 'x = ',x1
             write(*,*) 'x = ',x1
         endif 
     else 
 
         !虚数解計算
-
         if (D < 0) then 
             sqrt_D = sqrt(-D)
             x1_c = cmplx(-b /(2.0d0*a), sqrt_D/(2.0d0*a), kind = 8)
@@ -89,3 +88,5 @@ end program asg1
 
 
 
+
+!明日事前に問題設定をしてプログラムを回すから、あからじめファイルを作って置くといいかんも
