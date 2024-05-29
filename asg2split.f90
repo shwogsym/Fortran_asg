@@ -1,6 +1,3 @@
-!データ修正の演算をここで定義
-!修正後データを最も右の列に出力したい
-
 module func_module
     implicit none  
     contains
@@ -58,11 +55,11 @@ end module func_module
     open(input_file_number, file='asg2_file/inpasg2.dat', status='old', action='read',iostat = io)
     if (io /= 0) stop 'Failure to open input file'
 
-    size_lines = 0
     !データの読み込み
     do i = 1, max_rows
         read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns) !1行分のデータの読み込み
         if(io /= 0) exit !データのデータ端を検出
+        
 
         write(filename, '("asg2_file/"i2.2".dat")') i
         open(i+output_file_number, file=filename, status = "replace",iostat=io)
@@ -74,7 +71,7 @@ end module func_module
                 call Fix_data(line(j))
                 write(i+output_file_number,'(F24.16)') line(j)
             else
-            write(i+output_file_number,'(F24.16)') line(j)
+            write(i+output_file_number,'(F24.16)', advance = 'no') line(j)
             endif
         enddo
         close(i+output_file_number)
@@ -97,14 +94,12 @@ end module func_module
     !例えば最大値をとりだす、取得を行う時、演算1,2で異なる値を取り出すことができるようにする。
     !これは実際に力を見たい時や、エネルギーを見たいときに大応する。
 
-    !2番目さいだいとかもだしたり、ソートとかもしてみたいかなー
-
 
     !最大値取得、プログラム
     call max_value(size_lines, max_x, max_n)
-    write(*,'(F24.16)') max_n
-    write(*,'(F24.16)') max_x 
-    !制度が微妙だから底だけ再検討
-    
+    write(*, '(A, F24.16)') "Max value found in file: ", max_n
+    write(*, '(A, F24.16)') "Max value: ", max_x
+
+
     
  end program read_data

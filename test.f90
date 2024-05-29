@@ -1,113 +1,99 @@
-!asg3and6の修正に使う予定だからまだ消さない
-
 module func_module
-    implicit none 
-    
-    contains 
+    implicit none  
+    contains
 
-    subroutine newton(a, b, c, d,x1,i)
+    ! バックグラウンド値の引き算
+    subroutine Fix_data(r)
         implicit none 
-        real(8) :: a, b, c,d, x1, x2,f,df,er,er0=1.0d-6
-        integer :: k,km = 100,io,i
+        real(8) :: r
+        r = r - 0.01d0
+    end subroutine Fix_data
 
-        integer ,parameter :: output_file_number = 11
-        character(32)      :: filename
+    ! 最大値取得サブルーチン
+    subroutine max_value(size_lines, max_x, max_n)
+        implicit none
+        integer :: i, io, size_lines
+        real(8) :: x, n, max_x, max_n
+        integer :: edit_file_number = 100
+        character(32) :: filename
 
+        do i = 1, size_lines
+            write(filename, '("asg2v2_file/"i2.2".dat")') i
+            open(i + edit_file_number, file=filename, status = "old", iostat=io)
+            read(i + edit_file_number, *) n, x
+            close(i + edit_file_number)
 
-        write(filename, '("asg3_6_file/data_"i2.2".dat")') i
-        open(output_file_number, file= filename, action='write',iostat=io)
-        if (io /= 0) stop 'Failure to open input file'
-        
-
-        do k = 1,km 
-
-            f = a*x1**3 + b*x1**2 + c*x1 + d            ! f(x)
-            df = 3*a*x1**2 + 2*b*x1 + c                 ! f'(x)
-
-            if (df == 0) stop 'Error, derivative is zero.'
-            !導関数が0のとき、収束がないので計算を止める
-
-            ! Apply Newton's method
-            x2 = x1 - f / df
-            er = abs(x2 - x1)
-
-            write (output_file_number,*) k,x2
-
-            if (er < er0) exit
-            x1 = x2
-        enddo
-        close (output_file_number) 
-    end subroutine newton
-    
-    subroutine hantei(a,b,c,f,l,xs,count,split)
-        implicit none 
-        real(8) :: a, b, c,f, l, step,x1,x2
-        integer :: i, count,split
-        real(8), dimension(:), allocatable :: xs
-        !ディメンションを任意とした配列 
-        real(8) :: test1, test2
-
-        allocate(xs(split))
-        !最大分の配列を作っとく
-
-        step = (abs(l - f)) / split
-        
-        xs(1) = f
-        x1 = f
-        x2 = x1 + step
-        count = 1
-
-        do i = 1, split
-            test1 = 3*a*x1**2 + 2*b*x1 + c    
-            test2 = 3*a*x2**2 + 2*b*x2 + c    
-            if (test1 * test2 < 0.0d0) then
-                count = count + 1
-                xs(count) = x2
-                if (count == 100) exit
+            if (i == 1) then 
+                max_x = x    
+                max_n = n
+            else
+                if (x > max_x) then
+                    max_x = x
+                    max_n = n
+                endif
             endif
-            x1 = x2
-            x2 = x1 + step
-        end do
-
-    end subroutine hantei
-
+        enddo
+    end subroutine max_value
 end module func_module
 
-
-program asg3_6 
+program read_data
     use func_module
     implicit none
+   
+    integer :: i, j, io
+    integer, parameter :: max_rows = 100, max_cols = 100
+    integer :: size_lines, size_columns = 2
+    integer :: input_file_number = 10, output_file_number = 11
+    integer :: Fix_colum_number = 2
+    character(32) :: filename
+    real(8) :: line(max_cols), max_x, max_n
 
-    real (8) :: a,b,c,d,f,l
-    integer :: fi = 10,io,i,count,split
-    real(8) ,allocatable :: xs(:)
+    size_lines = 0
 
-    open(fi, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
-    if (io /= 0) stop 'Filure to open file.'
-    !ファイル読み込みに失敗→終了
+    open(input_file_number, file='asg2v2_file/inpasg2.dat', status='old', action='read', iostat=io)
+    if (io /= 0) stop 'Failure to open input file'
 
-    read(fi,*) a,b,c,d 
-    !a,b,c,dを３次関数の係数としてそれぞれファイルに入力
-    close(fi)
+    ! データの読み込みと処理
+    do i = 1, max_rows
+        read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns)
+        if (io /= 0) exit
 
-    ! write (*,*) 'Input initial value'
-    ! read (*,*) x1
-    !初期値を決めて動かしたいときは ↑ プログラムノコメント解除　↓ をコメントし、integer にx1を定義
+        ! データ修正
+        call Fix_data(line(Fix_colum_number))
 
-    write(*,*) "Input calculate range f and l (f < range < l)"
-    read(*,*) f, l
+        ! 修正データの出力
+        write(filename, '("asg2v2_file/"i2.2".dat")') i
+        open(i + output_file_number, file=filename, status="replace", iostat=io)
+        if (io /= 0) stop 'Failure to open output file'
+        write(i + output_file_number, '(F24.16, 1X, F24.16)') line(1), line(2)
+        close(i + output_file_number)
 
-    write(*,*) "Input split time"
-    read(*,*) split
+        size_lines = size_lines + 1
+    enddo
+    close(input_file_number)
 
-    call hantei(a,b,c,f,l,xs,count,split)
+    ! 最大値の取得
+    call max_value(size_lines, max_x, max_n)
+    write(*, '(A, F24.16)') "Max value found in file: ", max_n
+    write(*, '(A, F24.16)') "Max value: ", max_x
 
-
-    do i = 1,count
-        call newton(a, b, c, d, xs(i),i)
-    enddo 
-
-
-end program asg3_6
+end program read_data
 
 
+! 改善ポイントの詳細
+! データの一括読み込みと処理:
+
+! データの読み込みと修正を一度に行い、修正後のデータを一括で書き出すようにしました。
+! ファイルI/Oの削減:
+
+! 各ファイルの読み書き操作を最小限にし、必要なときにだけファイルを開閉するようにしました。
+! コードの簡素化:
+
+! 重複するコードを整理し、読みやすさと保守性を向上させました。
+! これにより、処理速度の向上とコードの可読性、保守性が向上するはずです
+
+
+
+
+
+!正直、確かに、シンプルにはされてるけど、汎用性が落ちれるから却下
