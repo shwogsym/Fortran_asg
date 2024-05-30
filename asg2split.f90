@@ -6,15 +6,15 @@ module func_module
     !バックグラウンド値の引き算サブルーチン
     subroutine Fix_data(r)
         implicit none 
-        real(8) r
+        real(8), intent(inout) :: r
         r = r - 0.01d0
     end subroutine Fix_data
 
-    !値を-2乗するサブルーチン
+    !値を-1乗するサブルーチン
     subroutine Fix_data2(r)
         implicit none 
-        real(8) r
-        r = r**(-2)
+        real(8), intent(inout) :: r
+        r = r**(-1)
     end subroutine Fix_data2
 
 end module func_module
@@ -28,10 +28,15 @@ module max_module
     subroutine max_value(size_lines, max_x, max_n, max_filename)
         !サイズラインは、ファイルの数を示し、max_xは最大値、max_filenameは最大値があるファイル名とする。
         implicit none
-        integer :: i, io, size_lines
-        real(8) :: x, n, max_x, max_n
+        integer :: i, io
+        real(8) :: x, n
         integer :: edit_file_number = 110
-        character(32) :: filename, max_filename
+        character(32) :: filename
+
+        integer ,intent(in) :: size_lines
+        character(32) ,intent(inout) :: max_filename
+        real(8) ,intent(out) :: max_x, max_n
+
 
         do i = 1, size_lines
 
@@ -59,7 +64,7 @@ module max_module
 
 
     !最大値周りのデータを取得するサブルーチン
-    subroutine get_max_around_data(max_filename, size_lines) !←問題出てるけど、コメントアウト部分で使うので無視
+    subroutine get_max_around_data(max_filename, size_lines) 
         implicit none
         character(32) :: max_filename,filename
         character(2) :: file_num
@@ -91,7 +96,7 @@ module max_module
         endif
 
         do i = max_data_file_number - data_r, max_data_file_number + data_r
-            if (i > 0) then 
+            if (i > 0 .and. i <= size_lines ) then 
                 write(filename, '("asg2_file/"i2.2".dat")') i
                 open(i + edit_file_number, file=filename, status = "old", iostat=io)
 
@@ -99,8 +104,9 @@ module max_module
                     write(*,*)  'Failure to open output file for get_max_around_data'
                 end if
 
-                read(i + edit_file_number, *) n, x                
-            end if 
+                read(i + edit_file_number, *,iostat = io) n, x           
+            
+  
 
             !同じデータをasg2v2_fileに書き込む
             write(filename, '("asg2_out/"i2.2".dat")') i
@@ -108,6 +114,7 @@ module max_module
             if (io /= 0) stop 'Failure to open output file for get_max_around_data'
             write(i + max_file_number, '(2F24.16)') n, x
             close(i + max_file_number)
+         end if 
         end do 
     end subroutine get_max_around_data
 end module max_module
@@ -122,10 +129,10 @@ end module max_module
    
     integer :: i, j, io
     integer, parameter :: max_rows = 99, max_cols = 99
-    integer :: size_lines, size_columns = 2,Fix_colum_number = 2 !inputの列数、演算を行う列、の指定ここでは題意通りの2列とする
+    integer :: size_lines, size_columns = 2, Fix_colum_number = 2!inputの列数、演算を行う列、の指定ここでは題意通りの2列とする
     integer :: input_file_number = 10, output_file_number = 11
 
-    character(32) :: filename,max_filename
+    character(32) :: filename, max_filename
     real(8) :: line(max_cols), max_x, max_n
 
     size_lines = 0
@@ -135,13 +142,13 @@ end module max_module
     if (io /= 0) stop 'Failure to open input file'
 
 
-    !データの読み込み、修正を行う
+    !このdoloopでデータの読み込み、修正を行う
     !rowの数は最大値を99として、それ以内で任意、列の数はsize_colums = 2 として大きさに応じてここを指定することで変更可能
     do i = 1, max_rows
         read(input_file_number, *, iostat=io) (line(j), j = 1, size_columns) !1行分のデータの読み込み
         if(io /= 0) exit !データ端を検出
         
-        !連番のファイルをライトする(福島さんのナス参考)
+        !連番のファイルをライトする
         write(filename, '("asg2_file/"i2.2".dat")') i
         open(i+output_file_number, file=filename, status = "replace", iostat = io)
         if (io /= 0) stop 'Failure to open output file'
@@ -162,10 +169,10 @@ end module max_module
         close(i+output_file_number)
         !行数のカウント
         size_lines = size_lines + 1
-
     end do
     close(input_file_number)
 
+    !ここからは時間があったので作った機能
 
     !最大値取得サブルーチンの呼び出し
     call max_value(size_lines, max_x, max_n, max_filename)
@@ -176,25 +183,7 @@ end module max_module
     !最大値周りのデータを取得するサブルーチンの呼び出し
     call get_max_around_data(max_filename, size_lines)
     write(*,*) 'Data around the maximum value is stored in the asg2_out folder.'
+
  end program asg2
 
 
-
- 
-
-
-
-
-
-  !どうすればいいんだろうか、指定の行っていうのは、inputファイルのナンバリングとしてある nを参照すればいいのか、
-    !それとも、連番ファイルの番号を参照したほうがいいのか
-
-    !→　結論、xデータの方を参照して、行数を出力するようにする。
-
-    !実際にプログラミングで使うのは、データ列の中で、最大値、または最小値を参照することが多い
-    !つまり、00~01.datのデータファイルの中で、最大値、最小値を求めるプログラミむを作りたい。
-
-    !最高の目的
-    !任意の四則演算を何種類か作る。で上記の取得方法で様々な値が取り出せるような漢字にできたら最高
-    !例えば最大値をとりだす、取得を行う時、演算1,2で異なる値を取り出すことができるようにする。
-    !これは実際に力を見たい時や、エネルギーを見たいときに大応する。

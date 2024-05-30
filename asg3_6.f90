@@ -26,7 +26,7 @@ module func_module
             df = 3.0d0*a*x1**2.0d0 + 2.0d0*b*x1 + c                 ! f'(x)
 
             if (df == 0) then
-                print *, 'Error, derivative is zero.'
+                write(*,*) 'Error, derivative is zero.'
                 exit
             endif
             !導関数が0のとき収束がない

@@ -7,23 +7,32 @@ subroutine solution_formula(a,b,c,x1,x2)
     !Dを判別式として、実数解、重解で、if 場合分けをして、解を求める
 
     implicit none 
-    real (8) :: a, b, c, x1, x2, D, sqrt_D
-    integer ,parameter :: input_file = 10, output_file = 11
+    real (8) :: a, b, c, x1, x2, D, sqrt_D, absD
+    integer, parameter :: input_file = 10, output_file = 11
     complex (8) :: x1_c, x2_c
     
-    D = b**2.0d0 - 4.0d0*a*c
+    !判別式をDとする
+    D = b**2 - 4.0d0*a*c
+    absD = abs(D)
 
     !まず、1次方程式以下の場合の処理をする。
     
     if (a == 0.0) then
-        if(b == 0.0) then 
-            stop "Error: Invalid input a,b = 0"
-        else 
+        if (b == 0.0) then 
+            if (c == 0.0) then 
+                stop '(huteikai)' !その後にも処理が続くので、stopは合ってもなくても良い
+            else
+                stop 'hunou'
+            endif
+        else
             x1 = -c/b 
             write(output_file,'(F26.16)') 'x = ',x1
             write(*,*) 'x = ',x1
-        endif 
-    else 
+        endif
+    else if (absD < 1d-13) then 
+        write(*,*) 'jyuukai'
+        
+    else
 
         !虚数解計算
         if (D < 0) then 
@@ -33,32 +42,36 @@ subroutine solution_formula(a,b,c,x1,x2)
             write(output_file,'(a,2F24.16,a)') 'x1 = ',x1_c ,'i'
             write(output_file,'(a,2F24.16,a)') 'x2 = ',x2_c ,'i'
 
-            write(*,'(A,2F24.16,A)') 'x1 = ',x1_c ,'i'
-            write(*,'(A,2F24.16,A)') 'x2 = ',x2_c ,'i'
-            stop
-        endif 
-
+            write(*,'(SP,A,2F24.16,A)') 'x1 = ',x1_c ,'i'
+            write(*,'(SP,A,2F24.16,A)') 'x2 = ',x2_c ,'i'
+        
+        else if (D > 0) then
         !実数解計算
+            sqrt_D = sqrt(D)
 
-        sqrt_D = sqrt(D)
-        if (b >= 0) then
-            x1 = (-b - sqrt_D) / (2.0d0*a)
-            x2 = 2.0d0*c / (-b - sqrt_D)
-        else
-            x1 = 2.0d0*c / (-b + sqrt_D)
-            x2 = (-b + sqrt_D) / (2.0d0*a)
+            if (b >= 0) then
+                x1 = (-b - sqrt_D) / (2.0d0*a)
+                 x2 = 2.0d0*c / (-b - sqrt_D)
+            else
+                x1 = 2.0d0*c / (-b + sqrt_D)
+                x2 = (-b + sqrt_D) / (2.0d0*a)
+            endif
         endif
 
         ! x1 = (-b+(b**2-4*a*c)**0.5)/(2*a)
         ! x2 = (-b-(b**2-4*a*c)**0.5)/(2*a)　としていないのは、桁落ち防止の為。
 
-        write (output_file,*) 'x =',x1,x2
-        write (*,*) 'x =',x1,x2
+        write (output_file,*) 'x =' ,x1, x2
+        write (*,*) 'x =' ,x1, x2
     endif
 
     close(output_file)
 end subroutine solution_formula    
 end module func_module
+
+
+
+
 
 
 program asg1
