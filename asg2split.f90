@@ -1,3 +1,4 @@
+!データ演算系のモジュール
 module func_module
     implicit none  
     contains
@@ -16,7 +17,14 @@ module func_module
         r = r**(-2)
     end subroutine Fix_data2
 
-    !最大値取得サブルーチン
+end module func_module
+
+
+!データ取得系のモジュール
+module max_module
+    implicit none
+    contains
+     !最大値取得サブルーチン
     subroutine max_value(size_lines, max_x, max_filename)
         !サイズラインは、ファイルの数を示し、max_xは最大値、max_filenameは最大値があるファイル名とする。
         implicit none
@@ -98,15 +106,14 @@ module func_module
             close(i + max_file_number)
         end do 
     end subroutine get_max_around_data
-
-end module func_module
-
+end module max_module
 
 
-!ここからメインプログラム
 
+!メインプログラム
  program asg2
     use func_module
+    use max_module
     implicit none
    
     integer :: i, j, io
