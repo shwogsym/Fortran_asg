@@ -20,7 +20,7 @@ subroutine solution_formula(a,b,c,x1,x2)
     if (a == 0.0) then
         if (b == 0.0) then 
             if (c == 0.0) then 
-                stop '(huteikai)' !その後にも処理が続くので、stopは合ってもなくても良い
+                stop 'huteikai' !その後にも処理が続くので、stopは合ってもなくても良い
             else
                 stop 'hunou'
             endif

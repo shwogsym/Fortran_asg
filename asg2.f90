@@ -7,6 +7,7 @@ module func_module
         real(8)x
         x=x-0.01d0
     end subroutine Fix_data
+
  end module func_module
  
  program asg2

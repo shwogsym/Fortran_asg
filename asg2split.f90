@@ -2,7 +2,6 @@
 module func_module
     implicit none  
     contains
-
     !バックグラウンド値の引き算サブルーチン
     subroutine Fix_data(r)
         implicit none 
@@ -89,7 +88,6 @@ module max_module
         !行数上限が99だから、無理矢理文字列から数字部分を取り込む形でも問題なく動作
         file_num = max_filename(11:12)
         read(file_num, '(I2)', iostat=io) max_data_file_number
-
         if (io/= 0) then
             write(*,*) 'Error: Failed to convert file number from filename.'
             stop
@@ -105,16 +103,14 @@ module max_module
                 end if
 
                 read(i + edit_file_number, *,iostat = io) n, x           
-            
-  
 
-            !同じデータをasg2v2_fileに書き込む
-            write(filename, '("asg2_out/"i2.2".dat")') i
-            open(i + max_file_number, file=filename, status = "replace", iostat=io)
-            if (io /= 0) stop 'Failure to open output file for get_max_around_data'
-            write(i + max_file_number, '(2F24.16)') n, x
-            close(i + max_file_number)
-         end if 
+                !同じデータをasg2v2_fileに書き込む
+                write(filename, '("asg2_out/"i2.2".dat")') i
+                open(i + max_file_number, file=filename, status = "replace", iostat=io)
+                if (io /= 0) stop 'Failure to open output file for get_max_around_data'
+                write(i + max_file_number, '(2F24.16)') n, x
+                close(i + max_file_number)
+            end if 
         end do 
     end subroutine get_max_around_data
 end module max_module
@@ -183,6 +179,7 @@ end module max_module
     !最大値周りのデータを取得するサブルーチンの呼び出し
     call get_max_around_data(max_filename, size_lines)
     write(*,*) 'Data around the maximum value is stored in the asg2_out folder.'
+    
 
  end program asg2
 
