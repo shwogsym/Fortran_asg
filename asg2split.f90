@@ -25,11 +25,11 @@ module max_module
     implicit none
     contains
      !最大値取得サブルーチン
-    subroutine max_value(size_lines, max_x, max_filename)
+    subroutine max_value(size_lines, max_x, max_n, max_filename)
         !サイズラインは、ファイルの数を示し、max_xは最大値、max_filenameは最大値があるファイル名とする。
         implicit none
         integer :: i, io, size_lines
-        real(8) :: x, n, max_x
+        real(8) :: x, n, max_x, max_n
         integer :: edit_file_number = 110
         character(32) :: filename, max_filename
 
@@ -45,10 +45,12 @@ module max_module
             !初期値を基準に判定を行う、単純な値の入れ替え
             if (i == 1) then 
                 max_x = x    
+                max_n = n
                 max_filename = filename
             else
                 if (x > max_x) then
                     max_x = x
+                    max_n = n
                     max_filename = filename
                 end if
             end if
@@ -61,33 +63,34 @@ module max_module
         implicit none
         character(32) :: max_filename,filename
         character(2) :: file_num
-        integer :: i, io, max_file_data_number, size_lines
+        integer :: i, io, max_data_file_number, size_lines
         integer ,parameter :: data_r = 2, edit_file_number = 110, max_file_number = 210
         real(8) :: x, n
-                
+
         ! max_filenameからファイル番号を抽出し、整数に変換する
 
         ! do i = 1, size_lines
         !     write(filename, '("asg2_file/"i2.2".dat")') i
         !     if (filename == max_filename) then 
-        !         max_file_data_number = i
+        !         max_data_file_number = i
         !         exit
         !     end if
         ! end do
 
         ! file_num = max_filename(1:2)
-        ! read(file_num, '(I2)') max_file_data_number
+        ! read(file_num, '(I2)') max_data_file_number
 
 
+        !行数上限が99だから、無理矢理文字列から数字部分を取り込む形でも問題なく動作
         file_num = max_filename(11:12)
-        read(file_num, '(I2)', iostat=io) max_file_data_number
+        read(file_num, '(I2)', iostat=io) max_data_file_number
 
         if (io/= 0) then
             write(*,*) 'Error: Failed to convert file number from filename.'
             stop
         endif
 
-        do i = max_file_data_number - data_r, max_file_data_number + data_r
+        do i = max_data_file_number - data_r, max_data_file_number + data_r
             if (i > 0) then 
                 write(filename, '("asg2_file/"i2.2".dat")') i
                 open(i + edit_file_number, file=filename, status = "old", iostat=io)
@@ -95,6 +98,7 @@ module max_module
                 if (io /= 0) then
                     write(*,*)  'Failure to open output file for get_max_around_data'
                 end if
+
                 read(i + edit_file_number, *) n, x                
             end if 
 
@@ -122,7 +126,7 @@ end module max_module
     integer :: input_file_number = 10, output_file_number = 11
 
     character(32) :: filename,max_filename
-    real(8) :: line(max_cols), max_x
+    real(8) :: line(max_cols), max_x, max_n
 
     size_lines = 0
   
@@ -164,8 +168,9 @@ end module max_module
 
 
     !最大値取得サブルーチンの呼び出し
-    call max_value(size_lines, max_x, max_filename)
+    call max_value(size_lines, max_x, max_n, max_filename)
     write(*, '(A, F24.16)') "Max value    : ",max_x
+    write(*, '(A, F24.16)') "Numbering    : ",max_n
     write(*, '(A, A)') "Found in file: ", max_filename
 
     !最大値周りのデータを取得するサブルーチンの呼び出し
