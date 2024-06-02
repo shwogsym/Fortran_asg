@@ -6,11 +6,13 @@ module func_module
 
     subroutine bisection_method(a, b, c, x1, x2, t, xm)
     implicit none 
-    real(8) a, b, c, x1, x2, xm, fm
-    integer t,io
-    integer, parameter :: output_file_number = 11 ,max_t = 1000
-    real(8), parameter :: er = 1.0e-15
+ 
+    real(8), intent(in) :: a, b, c
+    real(8) :: x1, x2, xm, fm
+    integer :: t, io
 
+    integer, parameter :: output_file_number = 11, max_t = 1000
+    real(8), parameter :: er = 1.0e-15
 
     if (func(a, b, c, x1) * func(a, b, c, x2) > 0) then
         stop 'One of the values should be positive and the other negative.'
@@ -53,7 +55,7 @@ module func_module
     real(8) function func(a, b, c, x)
         implicit none 
         real(8) :: a, b, c, x
-        func = a*x**2.0d0 + b*x + c
+        func = a*x**2 + b*x + c
     end function func
 
 end module func_module
@@ -68,7 +70,7 @@ program asg4
     open(input_file_number, file = 'asg4_file/inpasg4.dat', status='old', action='read', iostat=io)
     if (io /= 0) stop 'Filure to open input file.'
 
-    read(input_file_number,*) a,b,c,x1,x2
+    read(input_file_number,*) a, b, c, x1, x2
 
     call bisection_method(a, b, c, x1, x2, t, xm)
 
@@ -83,10 +85,6 @@ program asg4
 end program asg4
 
 
-
-!subroutineと　functionについて
-!サブルーチンはイメージ的にはデータ、作業の一連操作を定義するもの
-!function は数学の関数みたいに使うときに定義する
 
 
 

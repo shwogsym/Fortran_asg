@@ -1,44 +1,43 @@
 ! -2から2まで0.01刻みで初期値を変えて収束計算を行う
 
+
 module func_module
     implicit none 
-    
     contains 
 
     subroutine newton(a, b, c, d, x1, k)
         implicit none 
-        real(8) a, b, c,d, x1, x2,f,df,er,t
-        integer k,io
 
-        real(8) ,parameter :: er0=1.0d-15
+        real(8) ,intent(in)    :: a, b, c, d
+        real(8) ,intent(inout) :: x1
+        integer ,intent(out)   :: k
+
+        real(8)  x_sol, f, df, er, initial_value
+
+        real(8) ,parameter :: er0=1.0d-15, near0 = 1.0d-13 
         integer ,parameter :: k_max = 100, output_file_number = 11
-        character (32) :: filename = ("asg6_file/loopdata.dat")
 
-        t = x1
-
-        open(output_file_number, file= filename, action='write',position = 'append',iostat=io)
-        if (io /= 0) stop 'Failure to open output file'
-
-        do k = 1,k_max 
+        initial_value = x1 !初期値を記録
+        
+        !ニュートン法のループを回す
+        do k = 1, k_max 
 
             f = a*x1**3 + b*x1**2 + c*x1 + d            ! f(x)
-            df = 3*a*x1**2 + 2*b*x1 + c                 ! f'(x)
+            df = 3.0d0*a*x1**2 + 2.0d0*b*x1 + c         ! f'(x)
 
-            if (df == 0) then
-                print *, 'Error, derivative is zero.'
-                exit
-            endif
-            !導関数が0のとき収束がない
-            x2 = x1 - f / df
-            er = abs(x2 - x1)
+            if ( abs(df) < near0 ) then  !導関数が0の時に収束が起きないため、エラーを出す
+                write(*,*) 'Error, derivative is zero.'
+                exit 
+            end if 
+
+            x_sol = x1 - f / df
+            er = abs(x_sol - x1)
 
             if (er < er0) exit
-            x1 = x2
+            x1 = x_sol
         enddo
 
-        write (output_file_number,'(I3, F24.16 ,F24.16)') k,x2,t
-
-        close (output_file_number) 
+        write (output_file_number,'(I2, d24.16, d24.16)') k, x_sol, initial_value
     end subroutine newton
 
 end module func_module
@@ -51,8 +50,9 @@ program asg6
 
     real (8) a,b,c,d,xs
     integer i,io,k
-
-    integer ,parameter   :: input_file_number = 10
+    character (32) filename
+    
+    integer ,parameter   :: input_file_number = 10, output_file_number = 11
 
     open(input_file_number, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
     if (io /= 0) stop 'Filure to read input ifile.'
@@ -61,12 +61,20 @@ program asg6
     read(input_file_number,*) a,b,c,d
     !a,b,c,dを３次関数の係数として読み込む
     close(input_file_number)
+
+    write(filename, '("asg3_6_file/dataloop.dat")') 
+    open(output_file_number, file = filename, status = 'replace' ,action='write', iostat=io)
+    if (io /= 0) stop 'Failure to open output file'
     
-    do i = -200,200,1 
-        xs = i / 100.0d0
-        !0.01刻みで-2から2まで収束計算を行う。
+    !刻み収束計算を行う
+    do i = -2000,2000,1 
+        xs = i / 1000.0d0
         call newton(a, b, c, d, xs, k)
     enddo 
+
+    close (output_file_number) 
+    !ファイルioをサブルーチン内で行ってたんだけど、データが逐一書き換えられてしまうので、main プログラムに移動した
+
 
 end program asg6
 

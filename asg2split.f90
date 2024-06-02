@@ -116,7 +116,6 @@ module max_module
 end module max_module
 
 
-
 !メインプログラム
  program asg2
     use func_module
