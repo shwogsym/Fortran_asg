@@ -55,8 +55,6 @@ contains
 
 end module deriv_m
 
-
-!フォワードモードの自動微分
 program auto_derivative
     use deriv_m
     implicit none
