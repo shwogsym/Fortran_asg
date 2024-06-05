@@ -75,24 +75,21 @@ module ad
 end module ad 
 
 
-
 program auto_derivative_p
     use deriv_m
     use ad
     implicit none
 
-    real(8) df
-    real(8) a_val, b_val, c_val, d_val, x_val
+    real(8) df, a, b, c, d, x
+    
+    !値の設定
+    a = 1.0d0
+    b = 0.0d0
+    c = -1.0d0
+    d = 0.0d0
+    x = 1.0d0
 
-    !定数値の設定
-    a_val = 1.0d0
-    b_val = 0.0d0
-    c_val = -1.0d0
-    d_val = 0.0d0
-    x_val = 1.0d0
-
-    call auto_derivative(a_val, b_val, c_val, d_val, x_val, df)
-
+    call auto_derivative(a, b, c, d, x, df)
     write(*,*) 'dy/dx = ', df
 
 end program auto_derivative_p
