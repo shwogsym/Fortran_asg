@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-# ファイルパス
+# ファイルパスの設定
 file_path = 'asg3_6_file/dataloop.dat'
 
 # データを格納するリスト

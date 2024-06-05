@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-# ファイルパスを修正
-file_path = 'dataloop.dat'  # 'dataloop.dat' から 'loop.dat' に変更
+# ファイルパスの設定
+file_path = 'asg3_6_file/data.dat'
 
 # データを格納するリスト
 x_data = []
@@ -14,13 +14,15 @@ with open(file_path, 'r') as file:
         line = line.replace('D', 'E')
         # 空白で分割してデータを取得
         parts = line.split()
-        # xとyのデータをリストに追加
-        x_data.append(float(parts[1]))
-        y_data.append(float(parts[2]))
+        # xとyのデータをリストに追加、parts[]が列を指定
+        x_data.append(float(parts[0]))
+        y_data.append(float(parts[1]))
 
-# データをプロット
-plt.plot(x_data, y_data, marker='o', linestyle='-')
-plt.xlabel('X Label')
-plt.ylabel('Y Label')
+#データのプロット
+plt.plot( x_data, y_data, marker='o', linestyle='-')
+
+#ラベル設定
+plt.xlabel('Initial value')  
+plt.ylabel('Convergence value')
 plt.title('Data Plot')
 plt.show()

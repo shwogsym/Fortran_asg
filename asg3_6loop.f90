@@ -1,5 +1,4 @@
-! -2から2まで0.01刻みで初期値を変えて収束計算を行う
-
+!ニュートン法による収束計算、 -2から2まで0.01刻みで初期値を変えて計算を行う
 
 module func_module
     implicit none 
@@ -14,7 +13,7 @@ module func_module
 
         real(8)  x_sol, f, df, er, initial_value
 
-        real(8) ,parameter :: er0=1.0d-15, near0 = 1.0d-13 
+        real(8) ,parameter :: er0=1.0d-16, near0 = 1.0d-20
         integer ,parameter :: k_max = 100, output_file_number = 11
 
         initial_value = x1 !初期値を記録
@@ -29,7 +28,7 @@ module func_module
                 write(*,*) 'Error, derivative is zero.'
                 exit 
             end if 
-
+            
             x_sol = x1 - f / df
             er = abs(x_sol - x1)
 
