@@ -4,7 +4,6 @@
 module func_calc
     implicit none 
     contains
-
     !f(x) = ax^3 + bx^2 + cx + d
     subroutine function(a, b, c, d, x, f)
         real(8) ,intent(in) :: a, b, c, d, x 
@@ -22,8 +21,7 @@ module func_calc
 
 end module func_calc
 
-
-!自動微分
+!自動微分プログラムを用いて計算も行えるようにして入るが、実施の研究では、上記のようにあらかじめ微分値を計算してプログラムに組み込む　→ 高速化、確実な実行のため、
 module deriv_m 
     implicit none 
 
@@ -92,8 +90,9 @@ module ad
         d(1) = d_val; d(2) = 0.0d0
         x(1) = x_val; x(2) = 1.0d0
 
+        !y = ax^3 + bx^2 + cx + d　自動微分の関数はここでこのように定義を行う
         y = a .mul. x .mul. x .mul. x .add. (b .mul. x .mul. x) .add. (c .mul. x) .add. d
-         
+        
         dy = y(2)
 
     end subroutine auto_derivative
@@ -193,9 +192,9 @@ program asg3_6
         if (b == 0) then 
             if (c == 0) then 
                 if (d == 0) then 
-                    stop 'Undeterminate'
+                    stop 'Undeterminate' ! 0x = 0の場合であり、解が無数にある
                 else 
-                    stop 'Unsolvable'
+                    stop 'Unsolvable' !0x + d = 0の場合であり、解が存在しない
                 end if 
             end if 
         end if 

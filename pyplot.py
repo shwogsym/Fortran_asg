@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 # ファイルパスの設定
-file_path = 'asg3_6_file/data.dat'
+file_path = 'asg4_file/outasg4.dat'
 
 # データを格納するリスト
 x_data = []

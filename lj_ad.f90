@@ -72,7 +72,8 @@ module ad
         d(1) = d_val; d(2) = 0.0d0
         x(1) = x_val; x(2) = 1.0d0
         
-        y = a .mul. x .mul. x .mul. x .add. (b .mul. x .mul. x) .add. (c .mul. x) .add. d
+
+        y = a .div. x
 
         dy = y(2)
 
@@ -95,7 +96,6 @@ program auto_derivative_p
 
     call auto_derivative(a, b, c, d, x, df)
 
-    write(*,*) 'y = ', a, 'x^3 + ', b, 'x^2 + ', c, 'x + ', d
     write(*,*) 'dy/dx = ', df, ' at x = ', x
 
 end program auto_derivative_p

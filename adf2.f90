@@ -1,6 +1,7 @@
 
 !微分の線形性や、ライプニッツ則のアルゴリズムを定義
 !各演算子ごとの、オペレーションを type を用いて派生タイプを定義し、その中に関数を定義
+
 module deriv_m 
     implicit none 
 
@@ -84,8 +85,8 @@ program auto_derivative
     y = a .mul. x .mul. x .mul. x .add. (b .mul. x .mul. x) .add. (c .mul. x) .add. d
 
     !→　このように、ファンクションのメリットは数式自体に外部モジュールが用いられ、数式として形作られるときに、簡潔な記述ができる。
-    !したがって、今回は絶対にfunctionの方が良い
-    
+    !したがって、今回は絶対にfunctionの方が良い、subroutine だと関数の形を変えるときに、逐一callするものを動かさないと行けない →　超面倒 & 難しい 
+    write(*,*) 'y = ', y(1)
     write(*,*) 'dy/dx = ', y(2)
 
 end program auto_derivative

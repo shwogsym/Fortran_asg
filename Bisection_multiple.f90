@@ -21,7 +21,7 @@ module func_module
         if (func(a, b, c, x1) * func(a, b, c, x2) > 0) stop 'One of the values should be positive and the other negative.'
     
          ! iに応じたファイル名を生成
-        write(filename, '("asg4_file/data_"i2.2".dat")') i
+        write(filename, '("bisection_file/data_"i2.2".dat")') i
         ! ファイルを開く
         open(i+10, file=filename, status = "replace",iostat=io)
         if (io /= 0) stop 'Failure to open output file'
@@ -107,7 +107,7 @@ program asg4
     integer t, i, count, split, io
     integer, parameter :: input_file_number = 11
     
-    open(input_file_number, file = 'asg4_file/inpasg4.dat', status='old', action='read', iostat=io)
+    open(input_file_number, file = 'bisection_file/input.dat', status='old', action='read', iostat=io)
     if (io /= 0) stop 'Filure to open input file.'
 
     read(input_file_number,*) a,b,c,f,l,split
