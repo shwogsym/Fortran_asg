@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 # ファイルパスの設定
-file_path = 'asg3_6_file/dataloop.dat'
+file_path = 'graphene.dat'
 
 # データを格納するリスト
 x_data = []
