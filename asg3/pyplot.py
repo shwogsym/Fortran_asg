@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 # ファイルパスの設定
-file_path = 'asg3_6_file/data.dat'
+file_path = 'asg3/out.dat'
 
 # データを格納するリスト
 x_data = []
@@ -20,6 +20,9 @@ with open(file_path, 'r') as file:
 
 #データのプロット
 plt.plot( x_data, y_data, marker='o', linestyle='-')
+
+#y軸を常用対数グラフに変換
+plt.yscale('log')
 
 #ラベル設定
 plt.xlabel('Repetition times')  

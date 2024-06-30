@@ -15,14 +15,17 @@ with open(file_path, 'r') as file:
         # 空白で分割してデータを取得
         parts = line.split()
         # xとyのデータをリストに追加
-        x_data.append(float(parts[1]))
-        y_data.append(float(parts[2]))
+        x_data.append(float(parts[0]))  # 1列目のデータ
+        y_data.append(float(parts[1]))  # 2列目のデータ
 
-# x,yを入れ替えてデータの出力しているけど、元データを修正すれば変更の必要なし
-plt.plot(y_data, x_data, marker='o', linestyle='-')
-#plt.plot(x_data, y_data, marker='o', linestyle='-') 入れ替えしない場合
+# データのプロット
+plt.plot(x_data, y_data, marker='o', linestyle='', color='b')
 
-plt.xlabel('Initial value')  # X LabelをY Labelに変更
-plt.ylabel('Convergence value')  # Y LabelをX Labelに変更
-plt.title('Data Plot')
+# アスペクト比を1:1に設定
+plt.axis('equal')
+
+# ラベル設定
+plt.xlabel('X axis')  
+plt.ylabel('Y axis')
+plt.title('Graphene structure')
 plt.show()
