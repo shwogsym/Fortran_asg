@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 # ファイルパスの設定
-file_path = 'data.dat'
+file_path = 'data3.dat'
 
 # データを格納するリスト
 x_data = []

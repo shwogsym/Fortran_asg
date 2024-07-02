@@ -1,10 +1,8 @@
+!Newton法のメインプログラム
 program main
-    use func_module
+    use newton
     implicit none
-
-    !係数と初期値
     real (8) a, b, c, d, x_ini
-    !反復回数
     integer n 
 
     !初期値と係数の設定
@@ -14,10 +12,24 @@ program main
     d = 0.0d0
     x_ini = 100.0d0
 
+     !不定、不能を弾く
+    if (a == 0) then 
+        if (b == 0) then 
+            if (c == 0) then 
+                if (d == 0) then 
+                    stop 'Undeterminate' ! 0x = 0の場合であり、解が無数にある
+                else 
+                    stop 'Unsolvable' !0x + d = 0の場合であり、解が存在しない
+                end if 
+            end if 
+        end if 
+    end if 
+    
     !ニュートン法の呼び出し
-    call newton(a, b, c, d, x_ini, n)
+    call newton_method(a, b, c, d, x_ini, n)
     
     !結果の表示
-    write(*,*) 'The solution        : ', x_ini
-    write(*,*) 'Number of iterations: ', n
+    write(*,*) 'The solution         : ', x_ini
+    write(*,*) 'Number of iterations : ', n
+    write(*,*) 'Output file          : data.dat'
 end program main

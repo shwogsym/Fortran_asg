@@ -1,5 +1,8 @@
+!相対誤差で収束計算 (Relative error)
 
-module func_module
+!出力は計算回数に対する、その時の解
+
+module bisection
     implicit none
     contains 
 
@@ -19,16 +22,17 @@ module func_module
     endif 
   
 
-    t = 0 
+    t = 1
     open(output_file_number, file = 'data.dat', status = 'replace', iostat = io)
     if (io /= 0) stop 'Failure to open output file'
  
+    write(output_file_number,*) 0, x2
     do while ( er > eps .and. t <= max_t) !最大回数に達するまで繰り返し
         xm = 0.5 * (x1 + x2)
         fm = function(a, b, c, d, xm)
         !中央値の計算
 
-        !xm (中点)が 0のときは、それは正数であると扱われる。
+        !xm (中点)が 0のときは、それは正数であるとして扱われる。
         if (fm < 0) then
              !中点の値が0以下のとき→x1,x2の中負の値の方と値を交換したい。↓で判定
             if (function(a, b, c, d, x2) < 0) then
@@ -45,9 +49,9 @@ module func_module
             endif 
         endif
         !中点の値に応じて初期値の入れ替えを行い、次のサイクルに準備
-        t = t + 1 
+      
         write(output_file_number,*) t, xm 
-        
+        t = t + 1 
         er = abs(xm0 - xm)/abs(xm0)
         xm0 = xm
 
@@ -58,15 +62,16 @@ module func_module
     if (t == max_t) then
         write(*,*) "No solution was found."
     else
-        write(*,*) "Solution              :", xm
+        write(*,*) "The Solution         :", xm
     end if
 
     end subroutine bisection_method
 
+    !asg3でプログラムを２つコンパイルするのが面倒だったから、関数をモジュール化
     real(8) function function(a, b, c, d, x)
         implicit none 
         real(8) :: a, b, c, d, x
         function = a*x*x*x + b*x*x + c*x + d
     end function function
 
-end module func_module
+end module bisection

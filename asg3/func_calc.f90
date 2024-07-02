@@ -1,3 +1,4 @@
+!Newton法の計算で用いる関数はここで定義
 module func_calc
     implicit none 
     contains

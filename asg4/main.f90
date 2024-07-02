@@ -1,17 +1,16 @@
-
-program asg4 
-    use func_module
+!Bisection法のメインプログラム
+program main
+    use bisection
     implicit none 
     real(8) a, b, c, d, x1, x2, xm
-    integer t
-    integer, parameter :: input_file_number = 10, max_t = 1000
+    integer n
 
-    a = 0.0d0
-    b = 1.0d0
-    c = 0.0d0
-    d = -1.0d0
+    a = 1.0d0
+    b = 0.0d0
+    c = -1.0d0
+    d = 0.0d0
     x1 = 0.0d0
-    x2 = 200.0d0
+    x2 = 100.0d0
 
      !不定、不能を弾く
     if (a == 0) then 
@@ -26,11 +25,10 @@ program asg4
         end if 
     end if 
 
-
-    !二分法サブルーチンの呼び出し、解の出力も兼ねている。
-    call bisection_method(a, b, c, d, x1, x2, t, xm)
+    !二分法サブルーチンの呼び出し
+    call bisection_method(a, b, c, d, x1, x2, n, xm)
     
-    write(*,*) 'Number of repetitions :', t
-    write(*,*) 'Output file           : data.dat'
+    write(*,*) 'Number of iterations : ', n
+    write(*,*) 'Output file          : data.dat'
 
-end program asg4
+end program main
