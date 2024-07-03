@@ -8,10 +8,14 @@ module bisection
 
     subroutine bisection_method(a, b, c, d, x1, x2, t, xm)
     implicit none 
+
+    real(8), intent(in)  :: a, b, c, d
+    real(8), intent(out) :: xm
+    integer, intent(out) :: t
+    real(8), intent(inout) :: x1, x2
  
-    real(8), intent(in) :: a, b, c, d
-    real(8) :: x1, x2, xm, xm0, fm, er = 1.0
-    integer :: t, io
+    real(8) :: xm0, fm, er = 1.0
+    integer :: io
 
     integer, parameter :: output_file_number = 11, max_t = 1000
     real(8), parameter :: eps = 1.0e-15
@@ -26,7 +30,6 @@ module bisection
     open(output_file_number, file = 'data.dat', status = 'replace', iostat = io)
     if (io /= 0) stop 'Failure to open output file'
  
-    write(output_file_number,*) 0, x2
     do while ( er > eps .and. t <= max_t) !最大回数に達するまで繰り返し
         xm = 0.5 * (x1 + x2)
         fm = function(a, b, c, d, xm)
@@ -52,6 +55,7 @@ module bisection
       
         write(output_file_number,*) t, xm 
         t = t + 1 
+        !相対誤差の計算
         er = abs(xm0 - xm)/abs(xm0)
         xm0 = xm
 

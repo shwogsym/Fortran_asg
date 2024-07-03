@@ -12,7 +12,7 @@ program main
     d = 0.0d0
     x_ini = 100.0d0
 
-     !不定、不能を弾く
+    !不定、不能を弾く
     if (a == 0) then 
         if (b == 0) then 
             if (c == 0) then 

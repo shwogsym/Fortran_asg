@@ -54,17 +54,14 @@ program asg6
     integer i,io,k
     character (32) filename
     
-    integer ,parameter   :: input_file_number = 10, output_file_number = 11
+    integer ,parameter   ::  output_file_number = 11
 
-    open(input_file_number, file='asg3_6_file/inpasg3_6.dat', action='read', iostat=io)
-    if (io /= 0) stop 'Filure to read input ifile.'
-    !ファイル読み込みに失敗→終了
+    a = 1.0d0 
+    b = 0.0d0
+    c = -1.0d0
+    d = 0.0d0
 
-    read(input_file_number,*) a,b,c,d
-    !a,b,c,dを３次関数の係数として読み込む
-    close(input_file_number)
-
-    write(filename, '("asg3_6_file/dataloop.dat")') 
+    write(filename, '("loopdata.dat")') 
     open(output_file_number, file = filename, status = 'replace' ,action='write', iostat=io)
     if (io /= 0) stop 'Failure to open output file'
     
@@ -76,7 +73,6 @@ program asg6
 
     close (output_file_number) 
     !ファイルioをサブルーチン内で行ってたんだけど、データが逐一書き換えられてしまうので、main プログラムに移動した
-
 
 end program asg6
 

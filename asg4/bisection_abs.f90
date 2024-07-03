@@ -11,14 +11,17 @@ module bisection
     subroutine bisection_method(a, b, c, d, x1, x2, t, xm)
     implicit none 
  
-    real(8), intent(in) :: a, b, c, d
-    real(8) :: x1, x2, xm, xm0, fm, er = 1.0
-    integer :: t, io
+    real(8), intent(in)  :: a, b, c, d
+    real(8), intent(out) :: xm
+    integer, intent(out) :: t
+    real(8), intent(inout) :: x1, x2
 
+    real(8) :: xm0, fm, er = 1.0
+    integer :: io
 
     integer, parameter :: output_file_number = 11, max_t = 1000
     real(8), parameter :: eps = 1.0e-15
-    !方程式の解の真値をここで提議する。
+    !方程式の解の真値をここで定義する。
     real(8), parameter :: true_value = 1
 
     !２つの初期値が二分法を回す条件を満たしているのか検証
@@ -31,7 +34,6 @@ module bisection
     open(output_file_number, file = 'data.dat', status = 'replace', iostat = io)
     if (io /= 0) stop 'Failure to open output file'
  
-    write(output_file_number,*) 0, x2 - true_value
     do while ( er > eps .and. t <= max_t) !最大回数に達するまで繰り返し
         xm = 0.5 * (x1 + x2)
         fm = function(a, b, c, d, xm)

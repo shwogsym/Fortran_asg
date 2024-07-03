@@ -8,7 +8,6 @@
 module newton
     use func_calc
     implicit none 
-
     contains 
 
     subroutine newton_method(a, b, c, d, x1, n)
@@ -45,4 +44,5 @@ module newton
             x1 = x2
         enddo
     end subroutine newton_method
+
 end module newton
