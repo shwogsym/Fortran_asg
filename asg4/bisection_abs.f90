@@ -19,7 +19,7 @@ module bisection
     real(8) :: xm0, fm, er = 1.0
     integer :: io
 
-    integer, parameter :: output_file_number = 11, max_t = 1000
+    integer, parameter :: output_file_number = 11, max_t = 1000 !繰り返しの最大回数
     real(8), parameter :: eps = 1.0e-15
     !方程式の解の真値をここで定義する。
     real(8), parameter :: true_value = 1
