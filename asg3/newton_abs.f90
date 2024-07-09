@@ -19,7 +19,7 @@ module newton
 
         real(8)  x2, f, df, er
 
-        real(8) ,parameter :: eps =1.0d-15, df_min = 1.0d-99
+        real(8) ,parameter :: eps =1.0d-15
         integer ,parameter :: n_max = 1000, output_unit = 10
         !ここで真値を定義する。
         integer ,parameter :: true_value = 1
@@ -33,7 +33,7 @@ module newton
             call function(a, b, c, d, x1, f) 
             call derivative(a, b, c, x1, df) 
 
-            if (abs(df) < df_min) stop 'Error, derivative is zero.'
+            if (abs(df) == 0) stop 'Error, derivative is zero.'
     
             x2 = x1 - f / df
             write(output_unit, fmt) n, x2 - true_value

@@ -1,5 +1,6 @@
 !絶対誤差で収束計算 (Absolute error)
 
+!Bisection_relで収束が1であるとわかったため、バックグラウウンド値1をひいてプロットしてみた　→　真値との誤差をプロット、真値との差を収束判定とした
 !つまり解がすでにわかってる状態を想定されており、収束の速さを見るために使う
 
 !出力は反復回数に対する、誤差(真値-計算値)
@@ -56,7 +57,7 @@ module bisection
             endif 
         endif
         !中点の値に応じて初期値の入れ替えを行い、次のサイクルに準備
-      
+        
         write(output_file_number,*) t, xm - true_value
         t = t + 1 
         er = abs(xm - true_value)

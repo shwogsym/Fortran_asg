@@ -15,4 +15,5 @@ module func_calc
         real(8) ,intent(out) :: df
         df = 3.0d0*a*x**2 + 2.0d0*b*x + c   
     end subroutine derivative
+    
 end module func_calc

@@ -5,10 +5,10 @@ program main
     real(8) a, b, c, d, x1, x2, xm
     integer n
 
-    a = 1.0d0
-    b = 0.0d0
-    c = -1.0d0
-    d = 0.0d0
+    a = 0.0d0
+    b = 1.0d0
+    c = 0.0d0
+    d = -1.0d0
     x1 = 0.0d0
     x2 = 100.0d0
 
@@ -17,9 +17,9 @@ program main
         if (b == 0) then 
             if (c == 0) then 
                 if (d == 0) then 
-                    stop 'Undeterminate' ! 0x = 0の場合であり、解が無数にある
+                    stop 'Undeterminate' ! 0x = 0の場合であり、解が無数にある　(不定)
                 else 
-                    stop 'Unsolvable' !0x + d = 0の場合であり、解が存在しない
+                    stop 'Unsolvable' !0x + d = 0の場合であり、解が存在しない　 (不能)
                 end if 
             end if 
         end if 

@@ -6,16 +6,18 @@ program main
     integer n 
 
     !初期値と係数の設定
-    a = 1.0d0
-    b = 0.0d0
-    c = -1.0d0
-    d = 0.0d0
+    a = 0.0d0
+    b = 1.0d0
+    ! b = 0.00000001d0
+    c = 0.0d0
+    ! d = -0.00000001d0
+    d = -1.0d0
     x_ini = 100.0d0
 
     !不定、不能を弾く
     if (a == 0) then 
         if (b == 0) then 
-            if (c == 0) then 
+            if (c == 0) then
                 if (d == 0) then 
                     stop 'Undeterminate' ! 0x = 0の場合であり、解が無数にある
                 else 

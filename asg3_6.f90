@@ -137,7 +137,7 @@ module func_module
         character (32) filename
 
         !出力ファイルのオープン
-        write(filename, '("asg3_6_file/data.dat")') 
+        write(filename, '("asg3_6_file/data(-1.5).dat")') 
         open(output_file_number, file = filename, status = 'replace' ,action='write', iostat=io)
         if (io /= 0) stop 'Failure to open output file'
         
@@ -156,7 +156,7 @@ module func_module
 
             write (output_file_number,'(I2.2, 2X, d24.16)') n, x2
 
-            !正規化誤差の計算
+            !相対誤差の計算
             er = abs(x1 - x2)/abs(x1)
             if (er < eps) exit
 
@@ -171,7 +171,7 @@ module func_module
             !結果の出力
             write(*,'(A, d24.16)') 'Solution              :', x2
             write(*,'(A, I4)') 'Number of repetitions :', n
-            write(*,'(A)') 'Output file           :  asg3_6_file/data.dat'
+            write(*,'(A)') 'Output file           :  asg3_6_file/data(0.466).dat'
             !解の確認
             call function(a, b, c, d, x2, f) !f(x)
             write(*,'(A, d24.16)') 'Funcvalue at solution :', f

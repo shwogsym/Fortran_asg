@@ -34,7 +34,7 @@ plt.yscale('log')
 
 #ラベル設定
 plt.xlabel('Repetition times')  
-plt.ylabel('error (difference from the true value)') #abs計算
+plt.ylabel('absorute error (difference from the true value)') #abs計算
 # plt.ylabel('calculated value') #rel計算用
 plt.title('Newton: brue, bisection: red')
 plt.show()
