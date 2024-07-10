@@ -5,10 +5,10 @@ program main
     real(8) a, b, c, d, x1, x2, xm
     integer n
 
-    a = 0.0d0
-    b = 1.0d0
-    c = 0.0d0
-    d = -1.0d0
+    a = 1.0d0
+    b = 0.0d0
+    c = -1.0d0
+    d = 0.0d0
     x1 = 0.0d0
     x2 = 100.0d0
 

@@ -22,7 +22,7 @@ module newton
         real(8) ,parameter :: eps =1.0d-15
         integer ,parameter :: n_max = 1000, output_unit = 10
         !ここで真値を定義する。
-        integer ,parameter :: true_value = 1
+        integer ,parameter :: true_value = -1
 
         character(32) :: fmt = '(i3,e24.16)'
 
